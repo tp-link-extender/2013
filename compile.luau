@@ -22,15 +22,9 @@ local libraryCores = {
 local otherCores = {}
 local plugins = {}
 
--- Allow for running from the base or corescripts directories
-local cwd = process.cwd
-local fromCoresDir = not not string.match(cwd, "corescripts/$")
-local coresDir = if fromCoresDir then "." else "./corescripts"
-
--- local normalCoresDir = if fromCoresDir then "./luau" else "./corescripts/luau"
-local normalCoresDir = `{coresDir}/luau`
-local normalPluginsDir = `{coresDir}/terrain plugins`
-local outputDir = `{coresDir}/processed`
+local normalCoresDir = "./luau"
+local normalPluginsDir = "./terrain plugins"
+local outputDir = "./processed"
 
 for _, core in ipairs(fs.readDir(normalCoresDir)) do
 	table.insert(
@@ -43,9 +37,7 @@ for _, core in ipairs(fs.readDir(normalPluginsDir)) do
 	table.insert(plugins, core)
 end
 
-local pluginsDir = if fromCoresDir
-	then "../Client deployer"
-	else "./Client deployer"
+local pluginsDir = "./Client deployer" -- not here but.. ya get the idea
 
 local function processCores(
 	scripts: { string },
@@ -54,9 +46,7 @@ local function processCores(
 	config: "lines" | "dense",
 	libraries: boolean?
 )
-	local configFile = if fromCoresDir
-		then `../{config}.json5`
-		else `{config}.json5`
+	local configFile = `{config}.json5`
 
 	local w = waiter(#scripts)
 
@@ -70,7 +60,7 @@ local function processCores(
 				"process",
 				"-c",
 				configFile,
-				`{coresDir}/{startDir}/{core}`,
+				`./{startDir}/{core}`,
 				`{endDir}/{newCore}`,
 			})
 

@@ -35,7 +35,7 @@ local threadSleepTime = 15
 
 -- local test = _IS_STUDIO_JOIN -- unused
 
-print "! Joining game '_PLACE_ID' place _PLACE_ID at _SERVER_ADDRESS"
+print "! Joining place _PLACE_ID at _SERVER_ADDRESS"
 
 ChangeHistoryService:SetEnabled(false)
 ContentProvider:SetThreadPool(16)
@@ -124,7 +124,7 @@ local function onConnectionAccepted(_, rep: Instance)
 	local waitingForMarker = true
 
 	local ok, err = pcall(function()
-		Visit:SetPing("_PING_URL", 30)
+		Visit:SetPing(_PING_URL, 30)
 
 		loadingState += 1
 		game:SetMessageBrickCount()
@@ -211,7 +211,7 @@ local ok, err = pcall(function()
 	pcall(function()
 		player.Name = [========[_USER_NAME]========]
 	end)
-	player.CharacterAppearance = "_CHAR_APPEARANCE"
+	player.CharacterAppearance = _CHAR_APPEARANCE
 	Visit:SetUploadUrl ""
 end)
 

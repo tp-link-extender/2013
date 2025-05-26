@@ -22,12 +22,12 @@ return function(baseUrl: string, pingUrl: string, thumbnailKey: string)
 	HttpService.HttpEnabled = true
 	ScriptContext.ScriptsDisabled = true
 
-	post(`{pingUrl}/{game.JobId}?apiKey={thumbnailKey}`, "Rendering")
+	post(`{pingUrl}?apiKey={thumbnailKey}`, "Rendering")
 
 	function Render.Upload(result: string)
 		for i = 1, 3 do
 			local ok, err = pcall(function()
-				post(`{pingUrl}/{game.JobId}?apiKey={thumbnailKey}`, result)
+				post(`{pingUrl}?apiKey={thumbnailKey}`, result)
 			end)
 			if ok then
 				print(`[{game.JobId}] Upload successful! Moving on...`)

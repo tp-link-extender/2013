@@ -17,7 +17,7 @@ local NetworkServer = game:GetService "NetworkServer"
 
 RunService:Run()
 
-local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
+local url = "_BASE_URL" -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 
 -----------------------------------"CUSTOM" SHARED CODE----------------------------------
 
@@ -49,7 +49,7 @@ pcall(function()
 	Players:SetAbuseReportUrl(url .. "/Report/Games.ashx")
 end)
 pcall(function()
-	ScriptInformationProvider:SetAssetUrl(url .. "/Asset/")
+	ScriptInformationProvider:SetAssetUrl(url .. "/asset/")
 end)
 pcall(function()
 	ContentProvider:SetBaseUrl(url .. "/")
@@ -64,7 +64,7 @@ InsertService:SetUserSetsUrl(
 )
 InsertService:SetCollectionUrl(url .. "/Game/Tools/InsertAsset.ashx?sid=%d")
 InsertService:SetAssetUrl(url .. "/asset?id=%d")
-InsertService:SetAssetVersionUrl(url .. "/Asset/?assetversionid=%d")
+InsertService:SetAssetVersionUrl(url .. "/asset?assetversionid=%d")
 
 pcall(function()
 	NetworkServer:SetIsPlayerAuthenticationRequired(true)

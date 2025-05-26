@@ -5,7 +5,7 @@ local fs = require "@lune/fs"
 local process = require "@lune/process"
 local stdio = require "@lune/stdio"
 local task = require "@lune/task"
-local waiter = require "./Modules/Waiter"(task.wait)
+local waiter = (require "./Modules/Waiter")(function() task.wait() end)
 
 local colour = stdio.color
 
@@ -56,7 +56,7 @@ local function processCores(
 			else string.gsub(core, "%.luau$", ".lua")
 
 		task.spawn(function()
-			local cmd = process.spawn("darklua", {
+			local cmd = process.create("darklua", {
 				"process",
 				"-c",
 				configFile,
@@ -65,7 +65,7 @@ local function processCores(
 			})
 
 			print(
-				if cmd.ok
+				if cmd:status().ok
 					then `{green}Processed {core}{reset}`
 					else `{red}Error processing {core}: {cmd.stderr}{reset}`
 			)
@@ -97,18 +97,14 @@ for _, arg in ipairs(args) do
 	end)
 end
 
-if #process.args == 0 then
-	return
-end
+if #process.args == 0 then return end
 
 w.wait()
 
 local totalBytes = 0
 for _, core in ipairs(fs.readDir(outputDir)) do
 	local file = fs.readFile(`{outputDir}/{core}`)
-	if not string.match(core, "%d+%.lua") then
-		continue
-	end
+	if not string.match(core, "%d+%.lua") then continue end
 	totalBytes += #file
 end
 

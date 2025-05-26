@@ -8,11 +8,11 @@ globals:
     args: []
   _CREATOR_ID:
     args: []
+  _SERVER_ADDRESS:
+    args: []
   _SERVER_PORT:
     args: []
   _SERVER_PRESENCE_URL:
-    args: []
-  _SERVER_ADDRESS:
     args: []
   _PLACE_ID:
     args: []
@@ -24,14 +24,22 @@ globals:
     args: []
   _SERVER:
     args: []
+  _CLIENT:
+    args: []
 
   _BASE_URL:
+    args: []
+  _PING_URL:
     args: []
   _THUMBNAIL_KEY:
     args: []
   _RENDER_TYPE:
     args: []
   _ASSET_ID:
+    args: []
+  _CHAR_APPEARANCE:
+    args: []
+  _MEMBERSHIP_TYPE:
     args: []
 
   PluginManager:
@@ -3044,8 +3052,6 @@ globals:
   Enum.MembershipType.Premium:
     struct: EnumItem
   Enum.MembershipType.TurboBuildersClub:
-    struct: EnumItem
-  Enum.MembershipType._MEMBERSHIP_TYPE:
     struct: EnumItem
   Enum.MeshPartDetailLevel.DistanceBased:
     struct: EnumItem

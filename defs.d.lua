@@ -3554,27 +3554,26 @@ declare function UserSettings(): UserSettings
 declare function PluginManager(): PluginManager
 declare function ypcall(f: (() -> any) | (() -> ()) | ((...any) -> (), (...any) -> ()) -> (), ...: any): (boolean, any)
 
+declare _USER_ID: number
+declare _CREATOR_ID: number
+declare _SERVER_ADDRESS: any
+declare _SERVER_PORT: number
+declare _SERVER_PRESENCE_URL: string
 declare _PLACE_ID: number
 declare _IS_STUDIO_JOIN: string
-declare _SERVER_ADDRESS: any
-declare _SERVER_PORT: string
-declare _CREATOR_ID: number
-declare _USER_ID: number
 declare _USER_NAME: any
-declare _MEMBERSHIP_TYPE: any
+declare _MAP_LOCATION: any
+declare _MAP_LOCATION_EXISTS: boolean
+declare _SERVER: boolean
+declare _CLIENT: boolean
 
 declare _BASE_URL: string
+declare _PING_URL: string
 declare _THUMBNAIL_KEY: string
 declare _RENDER_TYPE: string
 declare _ASSET_ID: number
-
-declare _MAP_LOCATION_EXISTS: boolean
-declare _MAP_LOCATION: any
-declare _SERVER_PORT: number
-declare _SERVER_PRESENCE_URL: string
-
-declare _SERVER: boolean
-declare _CLIENT: boolean
+declare _CHAR_APPEARANCE: string
+declare _MEMBERSHIP_TYPE: any
 
 -- library types
 

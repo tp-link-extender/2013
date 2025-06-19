@@ -24,7 +24,7 @@ local plugins = {}
 
 local normalCoresDir = "./luau"
 local normalPluginsDir = "./terrain plugins"
-local outputDir = "./processed"
+local outputDir = "./Corescripts"
 
 for _, core in ipairs(fs.readDir(normalCoresDir)) do
 	table.insert(
@@ -37,7 +37,7 @@ for _, core in ipairs(fs.readDir(normalPluginsDir)) do
 	table.insert(plugins, core)
 end
 
-local pluginsDir = "./Client deployer" -- not here but.. ya get the idea
+local pluginsDir = "./Plugins"
 
 local function processCores(
 	scripts: { string },
@@ -81,7 +81,7 @@ local args: { { any } } = {
 	{
 		plugins,
 		"terrain plugins",
-		`{pluginsDir}/staging/BuiltInPlugins/terrain`,
+		pluginsDir,
 		"lines",
 	},
 	{ normalCores, "luau", outputDir, "dense" },

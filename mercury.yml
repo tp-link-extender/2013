@@ -5072,21 +5072,10 @@ globals:
           - AlignOrientation
           - AlignPosition
           - AngularVelocity
-          - BallSocketConstraint
-          - HingeConstraint
           - LineForce
           - LinearVelocity
-          - PlaneConstraint
           - Plane
-          - RigidConstraint
-          - RodConstraint
-          - RopeConstraint
-          - CylindricalConstraint
-          - PrismaticConstraint
-          - SpringConstraint
           - Torque
-          - TorsionSpringConstraint
-          - UniversalConstraint
           - VectorForce
           - HumanoidController
           - SkateboardController
@@ -5097,7 +5086,6 @@ globals:
           - CylinderMesh
           - FileMesh
           - SpecialMesh
-          - DataStoreIncrementOptions
           - DataStoreOptions
           - DataStoreSetOptions
           - DebuggerWatch
@@ -5178,7 +5166,6 @@ globals:
           - MemoryStoreService
           - Message
           - Hint
-          - NoCollisionConstraint
           - CornerWedgePart
           - Part
           - FlagStand
@@ -5270,7 +5257,6 @@ globals:
           - Vector3Curve
           - VirtualInputManager
           - VoiceChannel
-          - WeldConstraint
   NumberRange.new:
     args:
       - type: number

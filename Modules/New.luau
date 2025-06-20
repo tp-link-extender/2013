@@ -51,24 +51,10 @@ type New =
 	& ((className: "DragDetector") -> Return<DragDetector>)
 	& ((className: "Configuration") -> Return<Configuration>)
 	& ((className: "AngularVelocity") -> Return<AngularVelocity>)
-	& ((className: "AnimationConstraint") -> Return<AnimationConstraint>)
-	& ((className: "BallSocketConstraint") -> Return<BallSocketConstraint>)
-	& ((className: "HingeConstraint") -> Return<HingeConstraint>)
 	& ((className: "LineForce") -> Return<LineForce>)
 	& ((className: "LinearVelocity") -> Return<LinearVelocity>)
-	& ((className: "PlaneConstraint") -> Return<PlaneConstraint>)
 	& ((className: "Plane") -> Return<Plane>)
-	& ((className: "RigidConstraint") -> Return<RigidConstraint>)
-	& ((className: "RodConstraint") -> Return<RodConstraint>)
-	& ((className: "RopeConstraint") -> Return<RopeConstraint>)
-	& ((className: "CylindricalConstraint") -> Return<CylindricalConstraint>)
-	& ((className: "PrismaticConstraint") -> Return<PrismaticConstraint>)
-	& ((className: "SpringConstraint") -> Return<SpringConstraint>)
 	& ((className: "Torque") -> Return<Torque>)
-	& ((
-		className: "TorsionSpringConstraint"
-	) -> Return<TorsionSpringConstraint>)
-	& ((className: "UniversalConstraint") -> Return<UniversalConstraint>)
 	& ((className: "HumanoidController") -> Return<HumanoidController>)
 	& ((className: "SkateboardController") -> Return<SkateboardController>)
 	& ((className: "VehicleController") -> Return<VehicleController>)
@@ -83,28 +69,18 @@ type New =
 	& ((className: "DynamicMesh") -> Return<DynamicMesh>)
 	& ((className: "FileMesh") -> Return<FileMesh>)
 	& ((className: "SpecialMesh") -> Return<SpecialMesh>)
-	& ((
-		className: "DataStoreIncrementOptions"
-	) -> Return<DataStoreIncrementOptions>)
 	& ((className: "DataStoreOptions") -> Return<DataStoreOptions>)
 	& ((className: "DataStoreSetOptions") -> Return<DataStoreSetOptions>)
 	& ((className: "DebuggerWatch") -> Return<DebuggerWatch>)
 	& ((className: "Dialog") -> Return<Dialog>)
 	& ((className: "DialogChoice") -> Return<DialogChoice>)
 	& ((className: "Dragger") -> Return<Dragger>)
-	& ((
-		className: "ExperienceInviteOptions"
-	) -> Return<ExperienceInviteOptions>)
 	& ((className: "Explosion") -> Return<Explosion>)
 	& ((className: "Decal") -> Return<Decal>)
 	& ((className: "Texture") -> Return<Texture>)
 	& ((className: "Hole") -> Return<Hole>)
 	& ((className: "MotorFeature") -> Return<MotorFeature>)
 	& ((className: "Fire") -> Return<Fire>)
-	& ((className: "CSGDictionaryService") -> Return<CSGDictionaryService>)
-	& ((
-		className: "NonReplicatedCSGDictionaryService"
-	) -> Return<NonReplicatedCSGDictionaryService>)
 	& ((className: "ForceField") -> Return<ForceField>)
 	& ((className: "FunctionalTest") -> Return<FunctionalTest>)
 	& ((className: "GetTextBoundsParams") -> Return<GetTextBoundsParams>)
@@ -142,9 +118,6 @@ type New =
 	& ((className: "SelectionPartLasso") -> Return<SelectionPartLasso>)
 	& ((className: "SelectionPointLasso") -> Return<SelectionPointLasso>)
 	& ((
-		className: "HeightmapImporterService"
-	) -> Return<HeightmapImporterService>)
-	& ((
 		className: "HiddenSurfaceRemovalAsset"
 	) -> Return<HiddenSurfaceRemovalAsset>)
 	& ((className: "Humanoid") -> Return<Humanoid>)
@@ -168,7 +141,6 @@ type New =
 	& ((className: "LocalScript") -> Return<LocalScript>)
 	& ((className: "ModuleScript") -> Return<ModuleScript>)
 	& ((className: "MarkerCurve") -> Return<MarkerCurve>)
-	& ((className: "MemoryStoreService") -> Return<MemoryStoreService>)
 	& ((className: "Message") -> Return<Message>)
 	& ((className: "Hint") -> Return<Hint>)
 	& ((className: "CornerWedgePart") -> Return<CornerWedgePart>)
@@ -252,7 +224,6 @@ type New =
 	& ((className: "TeleportOptions") -> Return<TeleportOptions>)
 	& ((className: "TerrainDetail") -> Return<TerrainDetail>)
 	& ((className: "TerrainRegion") -> Return<TerrainRegion>)
-	& ((className: "TestService") -> Return<TestService>)
 	& ((className: "TextChannel") -> Return<TextChannel>)
 	& ((className: "TextChatCommand") -> Return<TextChatCommand>)
 	& ((

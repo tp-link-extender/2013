@@ -81,8 +81,8 @@ local function createChatNotificationGui()
 			New "ImageButton" {
 				Name = "Button",
 				AutoButtonColor = false,
-				Position = UDim2.new(0.0879999995, 0, 0.0529999994, 0),
-				Size = UDim2.new(0.829999983, 0, 0.460000008, 0),
+				Position = UDim2.new(0.088, 0, 0.053, 0),
+				Size = UDim2.new(0.83, 0, 0.468, 0),
 				Image = "",
 				BackgroundTransparency = 1,
 				RobloxLocked = true,

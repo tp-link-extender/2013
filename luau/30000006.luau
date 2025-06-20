@@ -536,8 +536,8 @@ local OriginalAbuseDescriptionBox = New "TextBox" {
 local CalmingAbuseBox = New "Frame" {
 	Name = "AbuseFeedbackBox",
 	BackgroundTransparency = 1,
-	Position = UDim2.new(0.25, 0, 0.300000012, 0),
-	Size = UDim2.new(0.5, 0, 0.370000005, 0),
+	Position = UDim2.new(0.25, 0, 0.3, 0),
+	Size = UDim2.new(0.5, 0, 0.37, 0),
 	MakeBackgroundGuiObj(path "asset?id=96506233"),
 	New "TextLabel" {
 		Name = "Header",
@@ -577,8 +577,8 @@ local CalmingAbuseBox = New "Frame" {
 local NormalAbuseBox = New "Frame" {
 	Name = "AbuseFeedbackBox",
 	BackgroundTransparency = 1,
-	Position = UDim2.new(0.25, 0, 0.300000012, 0),
-	Size = UDim2.new(0.5, 0, 0.370000005, 0),
+	Position = UDim2.new(0.25, 0, 0.3, 0),
+	Size = UDim2.new(0.5, 0, 0.37, 0),
 	MakeBackgroundGuiObj(path "asset?id=96506233"),
 	New "TextLabel" {
 		Name = "Header",

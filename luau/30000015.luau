@@ -1,5 +1,5 @@
 --!strict
--- CoreGui.RobloxGui.Backpack.CoreScripts/BackpackScripts/Back (2?)
+-- CoreGui.RobloxGui.Backpack.CoreScripts/BackpackScripts/BackpackManager
 print "[Mercury]: Loaded corescript 89449093"
 
 local CoreGui = game:GetService "CoreGui"

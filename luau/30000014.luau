@@ -1,4 +1,4 @@
--- CoreGui.RobloxGui.Backpack.CoreScripts/BackpackScripts/Back (1?)
+-- CoreGui.RobloxGui.Backpack.CoreScripts/BackpackScripts/BackpackGear
 print "[Mercury]: Loaded corescript 89449008"
 
 local Players = game:GetService "Players"

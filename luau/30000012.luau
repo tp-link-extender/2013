@@ -27,9 +27,9 @@ for name, id in pairs {
 	Fusion = 10000001,
 	Red = 10000002,
 	Load = 10000003,
-	Gui = 45284430,
-	Utility = 60595411,
-	Stamper = 73157242,
+	Gui = 30000004,
+	Utility = 30000011,
+	Stamper = 30000013,
 } do
 	ScriptContext:RegisterLibrary("Libraries/Rbx" .. name, tostring(id))
 end

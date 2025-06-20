@@ -17,7 +17,6 @@ local popupFrame = New "Frame" {
 	Style = Enum.FrameStyle.RobloxRound,
 	ZIndex = 4,
 	Visible = false,
-	Parent = script.Parent,
 	New "ImageLabel" {
 		Name = "PopupImage",
 		BackgroundTransparency = 1,
@@ -76,5 +75,7 @@ Hydrate(acceptButton:Clone()) {
 	Visible = false,
 	Parent = popupFrame,
 }
+
+popupFrame.Parent = script.Parent
 
 script:Destroy()

@@ -82,8 +82,8 @@ return function(IsServer: boolean)
 	function Server.Folder(self: Server, Player: Player?)
 		if Player then
 			ClientFolder = (
-				Player:FindFirstChild "PlayerGui" :: any
-			).Red :: ScreenGui
+					Player:FindFirstChild "PlayerGui" :: any
+				).Red :: ScreenGui
 
 			if ClientFolder:FindFirstChild(self.Name) then
 				return ClientFolder:FindFirstChild(self.Name) :: Model

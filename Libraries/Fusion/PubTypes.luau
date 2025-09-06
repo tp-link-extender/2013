@@ -41,7 +41,10 @@ export type Animatable =
 export type Task =
 	Instance
 	| RBXScriptConnection
-	| () -> () | { destroy: (any) -> () } | { Destroy: (any) -> () } | { Task }
+	| () -> ()
+	| { destroy: (any) -> () }
+	| { Destroy: (any) -> () }
+	| { Task }
 
 -- Script-readable version information.
 export type Version = {

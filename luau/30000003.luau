@@ -468,11 +468,7 @@ local function doDialog(dialog: Dialog)
 	Instance.Unlock(dialog)
 
 	currentConversationDialog = dialog
-	Chat:Chat(
-		dialog.Parent,
-		dialog.InitialPrompt,
-		getChatColor(dialog.Tone)
-	)
+	Chat:Chat(dialog.Parent, dialog.InitialPrompt, getChatColor(dialog.Tone))
 	variableDelay(dialog.InitialPrompt)
 
 	presentDialogChoices(dialog.Parent, dialog:GetChildren())

@@ -89,7 +89,8 @@ function RbxUtility.SelectTerrainRegion(
 		},
 		SelectionPart: BasePart?,
 		SelectionBox: SelectionBox?,
-	} = {} -- contains all adornments
+	} =
+		{} -- contains all adornments
 	local reusableAdorns = {}
 
 	local selectionPart = New "Part" {
@@ -155,7 +156,10 @@ function RbxUtility.SelectTerrainRegion(
 	end
 
 	-- finds full cells in region and adorns each cell with a box, with the argument color
-	local function adornFullCellsInRegion(region: Region3, newColour: BrickColor)
+	local function adornFullCellsInRegion(
+		region: Region3,
+		newColour: BrickColor
+	)
 		local regionBegin = region.CFrame.p
 			- (region.Size / 2)
 			+ Vector3.new(2, 2, 2)
@@ -535,8 +539,6 @@ function Create_PrivImpl(objectType: string)
 		return obj
 	end
 end
-
-
 
 --and create the "Event.E" syntax stub. Really it's just a stub to construct a table which our Create
 --function can recognize as special.

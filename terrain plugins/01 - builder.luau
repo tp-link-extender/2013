@@ -22,7 +22,8 @@ local plugin = PluginManager():CreatePlugin() :: Plugin
 local mouse = plugin:GetMouse()
 
 local toolbar = plugin:CreateToolbar "Terrain" :: Toolbar
-local toolbarbutton = toolbar:CreateButton("Builder", "Builder", "builder.png") :: Button
+local toolbarbutton =
+	toolbar:CreateButton("Builder", "Builder", "builder.png") :: Button
 toolbarbutton.Click:connect(function()
 	if on then
 		Off()

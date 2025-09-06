@@ -7,7 +7,6 @@ local GuiService = game:GetService "GuiService"
 local Players = game:GetService "Players"
 local RunService = game:GetService "RunService"
 
-
 local SafeChat = require "../Modules/Safechat.yml" -- THANK YOU DARKLUA
 local New = require("../Modules/New").New
 local BaseUrl = require "../Modules/BaseUrl"

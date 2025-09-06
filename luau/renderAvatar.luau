@@ -8,12 +8,8 @@ local SetupAvatar = require "../Modules/Render/SetupAvatar"
 local Render = RenderModule(_BASE_URL, _PING_URL, _THUMBNAIL_KEY) -- avoid ambiguous syntax after compilation
 local New = require("../Modules/New").New
 
-local player = SetupAvatar(
-	_BASE_URL,
-	_RENDER_TYPE,
-	_ASSET_ID,
-	"/asset/characterfetch/"
-)
+local player =
+	SetupAvatar(_BASE_URL, _RENDER_TYPE, _ASSET_ID, "/asset/characterfetch/")
 
 local clickBody = ThumbnailGenerator:Click("PNG", 840, 840, true)
 

@@ -5,7 +5,9 @@ local fs = require "@lune/fs"
 local process = require "@lune/process"
 local stdio = require "@lune/stdio"
 local task = require "@lune/task"
-local waiter = (require "./Modules/Waiter")(function() task.wait() end)
+local waiter = (require "./Modules/Waiter")(function()
+	task.wait()
+end)
 
 local colour = stdio.color
 
@@ -26,14 +28,14 @@ local normalCoresDir = "./luau"
 local normalPluginsDir = "./terrain plugins"
 local outputDir = "./Corescripts"
 
-for _, core in ipairs(fs.readDir(normalCoresDir)) do
+for _, core in fs.readDir(normalCoresDir) do
 	table.insert(
 		-- normalCores should be ones with numbers
 		if string.match(core, "%d+%.lua") then normalCores else otherCores,
 		core
 	)
 end
-for _, core in ipairs(fs.readDir(normalPluginsDir)) do
+for _, core in fs.readDir(normalPluginsDir) do
 	table.insert(plugins, core)
 end
 
@@ -50,7 +52,7 @@ local function processCores(
 
 	local w = waiter(#scripts)
 
-	for i, core in ipairs(scripts) do
+	for i, core in scripts do
 		local newCore = if libraries
 			then `{10000000 + i}.lua`
 			else string.gsub(core, "%.luau$", ".lua")
@@ -90,21 +92,29 @@ local args: { { any } } = {
 
 local w = waiter(#args)
 
-for _, arg in ipairs(args) do
+for _, arg in args do
 	task.spawn(function()
 		processCores(unpack(arg))
 		w.finish()
 	end)
 end
 
-if #process.args == 0 then return end
+local healthModel = "38037265.xml"
+fs.copy(healthModel, `{outputDir}/{healthModel}`, true)
+print(`{green}Copied    {healthModel}{reset}`)
+
+if #process.args == 0 then
+	return
+end
 
 w.wait()
 
 local totalBytes = 0
-for _, core in ipairs(fs.readDir(outputDir)) do
+for _, core in fs.readDir(outputDir) do
 	local file = fs.readFile(`{outputDir}/{core}`)
-	if not string.match(core, "%d+%.lua") then continue end
+	if not string.match(core, "%d+%.lua") then
+		continue
+	end
 	totalBytes += #file
 end
 

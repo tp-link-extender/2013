@@ -72,7 +72,7 @@ func main() {
 		return
 	}
 
-	file, err := os.Create(out + "/" + id)
+	file, err := os.Create(out + "/" + id + ".png") // most are pngs
 	if err != nil {
 		fmt.Println("error creating file:", err)
 		return

@@ -20,7 +20,7 @@ end
 
 -- library registration
 ScriptContext:AddCoreScript(
-	30000012,
+	60595695,
 	ScriptContext,
 	"/Libraries/LibraryRegistration/LibraryRegistration"
 )
@@ -40,12 +40,12 @@ local screenGui = CoreGui:FindFirstChild "RobloxGui" :: ScreenGui & {
 -- renaming the RobloxGui seems to break the camera
 
 local scripts = {
-	[30000001] = "CoreScripts/ToolTip", -- ToolTipper (creates tool tips for gui)
-	[30000003] = "CoreScripts/MainBotChatScript", -- MainBotChatScript
-	[30000005] = "CoreScripts/Settings", -- SettingsScript
-	[30000007] = "CoreScripts/NotificationScript", -- Friend Notification Script (probably can use this script to expand out to other notifications)
-	[30000008] = "CoreScripts/PopupScript", -- Popup Script
-	[30000016] = "CoreScripts/ChatScript", -- Chat script
+	[36868950] = "CoreScripts/ToolTip", -- ToolTipper (creates tool tips for gui)
+	[39250920] = "CoreScripts/MainBotChatScript", -- MainBotChatScript
+	[46295863] = "CoreScripts/Settings", -- SettingsScript
+	[48488398] = "CoreScripts/NotificationScript", -- Friend Notification Script (probably can use this script to expand out to other notifications)
+	[48488451] = "CoreScripts/PopupScript", -- Popup Script
+	[97188756] = "CoreScripts/ChatScript", -- Chat script
 }
 
 for id, path in pairs(scripts) do
@@ -53,11 +53,11 @@ for id, path in pairs(scripts) do
 end
 
 -- New Player List
-ScriptContext:AddCoreScript(30000006, screenGui, "CoreScripts/PlayerListScript")
+ScriptContext:AddCoreScript(48488235, screenGui, "CoreScripts/PlayerListScript")
 
 -- Backpack Builder, creates most of the backpack gui
 ScriptContext:AddCoreScript(
-	30000009,
+	53878047,
 	screenGui,
 	"CoreScripts/BackpackScripts/BackpackBuilder"
 )
@@ -68,20 +68,20 @@ local Backpack = screenGui.Backpack :: Frame
 
 -- Manager handles all big backpack state changes, other scripts subscribe to this and do things accordingly
 ScriptContext:AddCoreScript(
-	30000015,
+	89449093,
 	Backpack,
 	"CoreScripts/BackpackScripts/BackpackManager"
 )
 
 -- Backpack Gear (handles all backpack gear tab stuff)
 ScriptContext:AddCoreScript(
-	30000014,
+	89449008,
 	Backpack,
 	"CoreScripts/BackpackScripts/BackpackGear"
 )
 -- Loadout Script, used for gear hotkeys
 ScriptContext:AddCoreScript(
-	30000010,
+	53878057,
 	screenGui.CurrentLoadout,
 	"CoreScripts/BackpackScripts/LoadoutScript"
 )

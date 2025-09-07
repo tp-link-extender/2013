@@ -24,9 +24,9 @@ local libraryCores = {
 local otherCores = {}
 local plugins = {}
 
-local normalCoresDir = "./luau"
-local normalPluginsDir = "./terrain plugins"
-local outputDir = "./Corescripts"
+local normalCoresDir = "./Corescripts"
+local normalPluginsDir = "./Terrain plugins"
+local outputDir = "./outold"
 
 for _, core in fs.readDir(normalCoresDir) do
 	table.insert(
@@ -39,7 +39,7 @@ for _, core in fs.readDir(normalPluginsDir) do
 	table.insert(plugins, core)
 end
 
-local pluginsDir = "./Plugins"
+local pluginsDir = "./outold/plugins"
 
 local function processCores(
 	scripts: { string },

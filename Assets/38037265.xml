@@ -115,7 +115,7 @@ end
 function AnimateBars(x, y, lastX, height)
 	tray = HealthGUI_prototype.tray
 	local width = math.abs(x - lastX)
-	ifx &gt; lastX then
+	if x &gt; lastX then
 		x = lastX
 	end
 	tray.bar2.Position = UDim2.new(x,0, y, 0)

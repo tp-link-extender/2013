@@ -18,18 +18,19 @@ func trimExt(n string) string {
 }
 
 const (
-	outputDir        = "../out"
-	serverOutputDir  = outputDir + "/server"
-	pluginsOutputDir = outputDir + "/plugins"
-	coresDir         = "../Corescripts"
-	coresTemp        = serverOutputDir + "/corescripts"
-	libsDir          = "../Libraries"
-	loadsDir         = "../Loadscripts"
-	loadsOut         = serverOutputDir + "/loadscripts"
-	pluginsDir       = "../Plugins"
-	renderDir        = "../Render"
-	assetsOut        = "../out/assets"
-	keyPath          = "./PrivateKey.pem"
+	outputPath        = "../out"
+	serverOutputPath  = outputPath + "/server"
+	pluginsOutputPath = outputPath + "/plugins"
+	coresPath         = "../Corescripts"
+	coresTemp         = outputPath + "/corescripts"
+	libsPath          = "../Libraries"
+	loadsPath         = "../Loadscripts"
+	loadsOut          = serverOutputPath + "/loadscripts"
+	pluginsPath       = "../Plugins"
+	renderPath        = "../Render"
+	assetsPath        = "../Assets"
+	assetsOut         = serverOutputPath + "/assets"
+	keyPath           = "./PrivateKey.pem"
 )
 
 type Script struct {
@@ -38,18 +39,18 @@ type Script struct {
 
 var libraries = []Script{
 	{
-		entrypoint: libsDir + "/Fusion/init.luau",
-		output:     serverOutputDir + "/corescripts/10000001.lua",
+		entrypoint: libsPath + "/Fusion/init.luau",
+		output:     coresTemp + "/10000001.lua",
 		config:     "dense",
 	},
 	{
-		entrypoint: libsDir + "/Red/init.luau",
-		output:     serverOutputDir + "/corescripts/10000002.lua",
+		entrypoint: libsPath + "/Red/init.luau",
+		output:     coresTemp + "/10000002.lua",
 		config:     "dense",
 	},
 	{
-		entrypoint: libsDir + "/Load.luau",
-		output:     serverOutputDir + "/corescripts/10000003.lua",
+		entrypoint: libsPath + "/Load.luau",
+		output:     coresTemp + "/10000003.lua",
 		config:     "dense",
 	},
 }
@@ -86,7 +87,7 @@ func readScripts(in, out string) ([]Script, error) {
 	return scripts, nil
 }
 
-func signScript(in, out string, sk *rsa.PrivateKey) error {
+func signScript(in, out string, sk *rsa.PrivateKey, total *int) error {
 	fmt.Println("Signing", in)
 
 	data, err := os.ReadFile(in)
@@ -108,6 +109,7 @@ func signScript(in, out string, sk *rsa.PrivateKey) error {
 	sigcomment := fmt.Sprintf("--rbxsig%%%s%%", sigb64)
 
 	newdata := append([]byte(sigcomment), data...)
+	(*total) += len(newdata)
 
 	if err = os.WriteFile(out, newdata, 0o644); err != nil {
 		return fmt.Errorf("error writing signed script: %w", err)
@@ -118,30 +120,27 @@ func signScript(in, out string, sk *rsa.PrivateKey) error {
 func main() {
 	fmt.Println("Mercury Corescript Compiler (MCC) Version 2")
 
-	// delete output directory if it exists
-	if _, err := os.Stat(outputDir); err == nil {
-		if err := os.RemoveAll(outputDir); err != nil {
-			fmt.Println("Error removing output directory:", err)
-			return
-		}
+	if err := os.RemoveAll(outputPath); err != nil {
+		fmt.Println("Error removing output directory:", err)
+		return
 	}
 
-	cores, err := readScripts(coresDir, serverOutputDir+"/corescripts")
+	cores, err := readScripts(coresPath, coresTemp)
 	if err != nil {
 		fmt.Println("Error reading corescripts:", err)
 		return
 	}
-	loads, err := readScripts(loadsDir, serverOutputDir+"/loadscripts")
+	loads, err := readScripts(loadsPath, loadsOut)
 	if err != nil {
 		fmt.Println("Error reading loadscripts:", err)
 		return
 	}
-	plugins, err := readScripts(pluginsDir, pluginsOutputDir)
+	plugins, err := readScripts(pluginsPath, pluginsOutputPath)
 	if err != nil {
 		fmt.Println("Error reading plugins:", err)
 		return
 	}
-	render, err := readScripts(renderDir, serverOutputDir+"/render")
+	render, err := readScripts(renderPath, serverOutputPath+"/render")
 	if err != nil {
 		fmt.Println("Error reading render scripts:", err)
 		return
@@ -198,6 +197,7 @@ func main() {
 		return
 	}
 
+	var totalCores int
 	for _, entry := range coresOutDir {
 		if entry.IsDir() {
 			continue
@@ -205,19 +205,57 @@ func main() {
 		name := entry.Name()
 		in := coresTemp + "/" + name
 		out := assetsOut + "/" + trimExt(name)
-		if err = signScript(in, out, sk); err != nil {
+		if err = signScript(in, out, sk, &totalCores); err != nil {
 			fmt.Println("Error signing corescript:", err)
 			return
 		}
 	}
+	fmt.Println("Total corescripts size", totalCores, "bytes")
+
+	var totalLoads int
 	for _, entry := range loadsOutDir {
 		if entry.IsDir() {
 			continue
 		}
 		p := loadsOut + "/" + entry.Name()
-		if err = signScript(p, p, sk); err != nil {
+		if err = signScript(p, p, sk, &totalLoads); err != nil {
 			fmt.Println("Error signing loadscript:", err)
 			return
 		}
 	}
+	fmt.Println("Total loadscripts size", totalLoads, "bytes")
+
+	if err = os.RemoveAll(coresTemp); err != nil {
+		fmt.Println("Error removing temporary corescripts directory:", err)
+		return
+	}
+
+	// copy assets to server output dir
+	assetsDir, err := os.ReadDir(assetsPath)
+	if err != nil {
+		fmt.Println("Error reading assets directory:", err)
+		return
+	}
+
+	for _, entry := range assetsDir {
+		if entry.IsDir() {
+			continue
+		}
+		name := entry.Name()
+		in := assetsPath + "/" + name
+		out := serverOutputPath + "/assets/" + trimExt(name)
+
+		fmt.Println("Copying asset", in, "to", out)
+		data, err := os.ReadFile(in)
+		if err != nil {
+			fmt.Println("Error reading asset:", err)
+			return
+		}
+		if err = os.WriteFile(out, data, 0o644); err != nil {
+			fmt.Println("Error writing asset:", err)
+			return
+		}
+	}
+
+	fmt.Println("Done!")
 }

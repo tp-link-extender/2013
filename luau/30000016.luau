@@ -179,34 +179,37 @@ function Chat:EnableScrolling(toggle)
 	-- Genius idea gone to fail, if we switch the camera type we can effectively lock the
 	-- camera and do no click scrolling
 	self.MouseOnFrame = false
-	if self.RenderFrame then
-		self.RenderFrame.MouseEnter:connect(function()
-			local character = Player.Character
-			local torso = WaitForChild(character, "Torso")
-			local head = WaitForChild(character, "Head")
-			if toggle then
-				self.MouseOnFrame = true
-				Camera.CameraType = "Scriptable"
-				-- Get relative position of camera and keep to it
-				Spawn(function()
-					local currentRelativePos = Camera.CoordinateFrame.p
-						- torso.Position
-					while Chat.MouseOnFrame do
-						Camera.CoordinateFrame = CFrame.new(
-							torso.Position + currentRelativePos,
-							head.Position
-						)
-						wait(0.015)
-					end
-				end)
+	if not self.RenderFrame then
+		return
+	end
+
+	self.RenderFrame.MouseEnter:connect(function()
+		local character = Player.Character
+		local torso = WaitForChild(character, "Torso")
+		local head = WaitForChild(character, "Head")
+		if not toggle then
+			return
+		end
+
+		self.MouseOnFrame = true
+		Camera.CameraType = "Scriptable"
+		-- Get relative position of camera and keep to it
+		Spawn(function()
+			local currentRelativePos = Camera.CoordinateFrame.p - torso.Position
+			while Chat.MouseOnFrame do
+				Camera.CoordinateFrame = CFrame.new(
+					torso.Position + currentRelativePos,
+					head.Position
+				)
+				wait(0.015)
 			end
 		end)
+	end)
 
-		self.RenderFrame.MouseLeave:connect(function()
-			Camera.CameraType = "Custom"
-			self.MouseOnFrame = false
-		end)
-	end
+	self.RenderFrame.MouseLeave:connect(function()
+		Camera.CameraType = "Custom"
+		self.MouseOnFrame = false
+	end)
 end
 
 -- TODO: Scrolling using Mouse wheel
@@ -382,20 +385,21 @@ function Chat:UpdateChat(cPlayer, message)
 		["Player"] = cPlayer,
 		["Message"] = message,
 	}
-	if coroutine.status(Chat.MessageThread) == "dead" then
-		--Chat.Messages_List = {}
+	if coroutine.status(Chat.MessageThread) ~= "dead" then
 		table.insert(Chat.Messages_List, messageField)
-		Chat.MessageThread = coroutine.create(function()
-			for i = 1, #Chat.Messages_List do
-				local field = Chat.Messages_List[i]
-				Chat:CreateMessage(field.Player, field.Message)
-			end
-			Chat.Messages_List = {}
-		end)
-		coroutine.resume(Chat.MessageThread)
-	else
-		table.insert(Chat.Messages_List, messageField)
+		return
 	end
+
+	--Chat.Messages_List = {}
+	table.insert(Chat.Messages_List, messageField)
+	Chat.MessageThread = coroutine.create(function()
+		for i = 1, #Chat.Messages_List do
+			local field = Chat.Messages_List[i]
+			Chat:CreateMessage(field.Player, field.Message)
+		end
+		Chat.Messages_List = {}
+	end)
+	coroutine.resume(Chat.MessageThread)
 end
 
 -- function Chat:RecalculateSpacing()
@@ -759,10 +763,9 @@ function Input:OnMouseScroll()
 			wait(0.03)
 		end
 	end)
-	if Chat:CheckIfInBounds(Input.Speed) then
-		return
+	if not Chat:CheckIfInBounds(Input.Speed) then
+		Chat:ScrollQueue(Input.Speed)
 	end
-	Chat:ScrollQueue(Input.Speed)
 end
 
 function Input:ApplySpeed(value)
@@ -863,17 +866,19 @@ end
 
 function Chat:CoreGuiChanged(coreGuiType, enabled)
 	if
-		coreGuiType == Enum.CoreGuiType.Chat
-		or coreGuiType == Enum.CoreGuiType.All
+		coreGuiType ~= Enum.CoreGuiType.Chat
+		and coreGuiType ~= Enum.CoreGuiType.All
 	then
-		if self.Frame then
-			self.Frame.Visible = enabled
-		end
+		return
+	end
 
-		if self.ChatBar then
-			self.ChatBar.Visible = enabled
-			GuiService:SetGlobalGuiInset(0, 0, 0, enabled and 20 or 0)
-		end
+	if self.Frame then
+		self.Frame.Visible = enabled
+	end
+
+	if self.ChatBar then
+		self.ChatBar.Visible = enabled
+		GuiService:SetGlobalGuiInset(0, 0, 0, enabled and 20 or 0)
 	end
 end
 

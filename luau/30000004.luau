@@ -4161,26 +4161,28 @@ function RbxGui.CreatePluginFrame(
 
 	helpButton.MouseButton1Click:connect(function()
 		helpFrame.Visible = not helpFrame.Visible
-		if helpFrame.Visible then
-			helpButton.Selected = true
-			helpButton.BackgroundTransparency = 0
-			local screenGui = getScreenGuiAncestor(helpFrame)
-			if screenGui then
-				if
-					helpFrame.AbsolutePosition.X + helpFrame.AbsoluteSize.X
-					> screenGui.AbsoluteSize.X
-				then --position on left hand side
-					helpFrame.Position =
-						UDim2.new(0, -5 - helpFrame.AbsoluteSize.X, 0, 0)
-				else -- position on right hand side
-					helpFrame.Position = UDim2.new(1, 5, 0, 0)
-				end
-			else
-				helpFrame.Position = UDim2.new(1, 5, 0, 0)
-			end
-		else
+		if not helpFrame.Visible then
 			helpButton.Selected = false
 			helpButton.BackgroundTransparency = 1
+			return
+		end
+
+		helpButton.Selected = true
+		helpButton.BackgroundTransparency = 0
+		local screenGui = getScreenGuiAncestor(helpFrame)
+		if not screenGui then
+			helpFrame.Position = UDim2.new(1, 5, 0, 0)
+			return
+		end
+
+		if
+			helpFrame.AbsolutePosition.X + helpFrame.AbsoluteSize.X
+			> screenGui.AbsoluteSize.X
+		then --position on left hand side
+			helpFrame.Position =
+				UDim2.new(0, -5 - helpFrame.AbsoluteSize.X, 0, 0)
+		else -- position on right hand side
+			helpFrame.Position = UDim2.new(1, 5, 0, 0)
 		end
 	end)
 

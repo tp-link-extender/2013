@@ -153,6 +153,7 @@ func main() {
 	scripts = append(scripts, plugins...)
 	scripts = append(scripts, render...)
 
+	// we could goroutine this in future
 	for _, script := range scripts {
 		if err := processScript(script); err != nil {
 			fmt.Println("Error processing script:", err)

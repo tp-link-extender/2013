@@ -11,7 +11,7 @@
 	if child then return child end
 	while true do
 		child = parent.ChildAdded:wait()
-		if child.Name==childName then return child end
+		if child.Name == childName then return child end
 	end
 end
 
@@ -86,7 +86,7 @@ function UpdateGUI(health)
 		tray.bar.Size = UDim2.new(0, 0, 0, 0)
 	end
 
-	if ( (lastHealth - health) &gt; (humanoid.MaxHealth / 10) ) then
+	if (lastHealth - health) &gt; (humanoid.MaxHealth / 10) then
 		lastHealth = health
 
 		if humanoid.Health ~= humanoid.MaxHealth then
@@ -105,7 +105,7 @@ end
 
 function HealthChanged(health)
 	UpdateGUI(health)
-	if ( (lastHealth2 - health) &gt; (humanoid.MaxHealth / 10) ) then
+	if (lastHealth2 - health) &gt; (humanoid.MaxHealth / 10) then
 		lastHealth2 = health
 	else
 		lastHealth2 = health
@@ -115,7 +115,7 @@ end
 function AnimateBars(x, y, lastX, height)
 	tray = HealthGUI_prototype.tray
 	local width = math.abs(x - lastX)
-	if( x &gt; lastX ) then
+	ifx &gt; lastX then
 		x = lastX
 	end
 	tray.bar2.Position = UDim2.new(x,0, y, 0)
@@ -125,13 +125,13 @@ function AnimateBars(x, y, lastX, height)
 	local j = 0.2
 
 	local i_total = 30
-	for i=1,i_total do
+	for i = 1, i_total do
 		-- Increment Values
-		if (GBchannels &lt; 0.2) then
+		if GBchannels &lt; 0.2 then
 			j = -j
 		end
 		GBchannels = GBchannels + j
-		if (i &gt; (i_total - 10)) then
+		if i &gt; (i_total - 10) then
 			tray.bar2.BackgroundTransparency = tray.bar2.BackgroundTransparency + 0.1
 		end
 		tray.bar2.BackgroundColor3 = Color3.new(1, GBchannels, GBchannels)
@@ -156,7 +156,7 @@ function AnimateHurtOverlay()
 	local i_total = 2
 	local wiggle_total = 0
 	local wiggle_i = 0.02
-	for i=1,i_total do
+	for i =1, i_total do
 		overlay.Position = UDim2.new( (-2 + (2 * (i/i_total)) + wiggle_total/2), 0, (-2 + (2 * (i/i_total)) + wiggle_total/2), -22 )
 		overlay.Size = UDim2.new( (4.5 - (3.5 * (i/i_total)) + wiggle_total), 0, (4.65 - (3.5 * (i/i_total)) + wiggle_total), 30 )
 		wait()
@@ -167,8 +167,8 @@ function AnimateHurtOverlay()
 	wait()
 
 	-- Animate Out, slow
-	for i=1,i_total do
-		if( math.abs(wiggle_total) &gt; (wiggle_i * 3) ) then
+	for i = 1, i_total do
+		if math.abs(wiggle_total) &gt; (wiggle_i * 3) then
 			wiggle_i = -wiggle_i
 		end
 		wiggle_total = wiggle_total + wiggle_i
@@ -210,7 +210,7 @@ humanoid.Died:connect(function() HealthChanged(0) end)</ProtectedString>
 					<UDim2 name="Size">
 						<XS>1</XS>
 						<XO>0</XO>
-						<YS>1.1500001</YS>
+						<YS>1.15</YS>
 						<YO>30</YO>
 					</UDim2>
 					<token name="SizeConstraint">0</token>
@@ -285,9 +285,9 @@ humanoid.Died:connect(function() HealthChanged(0) end)</ProtectedString>
 						<Content name="Image"><url>http://xtcy.dev/asset?id=35238036</url></Content>
 						<string name="Name">barRed</string>
 						<UDim2 name="Position">
-							<XS>0.0189999994</XS>
+							<XS>0.019</XS>
 							<XO>0</XO>
-							<YS>0.100000001</YS>
+							<YS>0.1</YS>
 							<YO>0</YO>
 						</UDim2>
 						<UDim2 name="Size">
@@ -312,15 +312,15 @@ humanoid.Died:connect(function() HealthChanged(0) end)</ProtectedString>
 						<bool name="Draggable">false</bool>
 						<string name="Name">bar2</string>
 						<UDim2 name="Position">
-							<XS>0.0189999994</XS>
+							<XS>0.019</XS>
 							<XO>0</XO>
-							<YS>0.100000001</YS>
+							<YS>0.1</YS>
 							<YO>0</YO>
 						</UDim2>
 						<UDim2 name="Size">
-							<XS>0.192000002</XS>
+							<XS>0.192</XS>
 							<XO>0</XO>
-							<YS>0.829999983</YS>
+							<YS>0.83</YS>
 							<YO>0</YO>
 						</UDim2>
 						<token name="SizeConstraint">0</token>
@@ -341,15 +341,15 @@ humanoid.Died:connect(function() HealthChanged(0) end)</ProtectedString>
 						<Content name="Image"><url>http://xtcy.dev/asset?id=35238053</url></Content>
 						<string name="Name">bar</string>
 						<UDim2 name="Position">
-							<XS>0.0189999994</XS>
+							<XS>0.019</XS>
 							<XO>0</XO>
-							<YS>0.100000001</YS>
+							<YS>0.1</YS>
 							<YO>0</YO>
 						</UDim2>
 						<UDim2 name="Size">
-							<XS>0.959999979</XS>
+							<XS>0.96</XS>
 							<XO>0</XO>
-							<YS>0.829999983</YS>
+							<YS>0.83</YS>
 							<YO>0</YO>
 						</UDim2>
 						<token name="SizeConstraint">0</token>
@@ -369,15 +369,15 @@ humanoid.Died:connect(function() HealthChanged(0) end)</ProtectedString>
 						<Content name="Image"><url>http://xtcy.dev/asset?id=34816363</url></Content>
 						<string name="Name">label</string>
 						<UDim2 name="Position">
-							<XS>0.680000007</XS>
+							<XS>0.68</XS>
 							<XO>0</XO>
-							<YS>0.300000012</YS>
+							<YS>0.3</YS>
 							<YO>0</YO>
 						</UDim2>
 						<UDim2 name="Size">
 							<XS>0.25</XS>
 							<XO>0</XO>
-							<YS>0.349999994</YS>
+							<YS>0.35</YS>
 							<YO>0</YO>
 						</UDim2>
 						<token name="SizeConstraint">0</token>

@@ -20,8 +20,8 @@ globals:
     args: []
   _MAP_LOCATION:
     args: []
-  _MAP_LOCATION_EXISTS:
-    args: []
+  # _MAP_LOCATION_EXISTS:
+  #   args: []
   _SERVER:
     args: []
   _CLIENT:

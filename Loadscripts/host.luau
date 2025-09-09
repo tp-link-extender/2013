@@ -17,7 +17,7 @@ local NetworkServer = game:GetService "NetworkServer"
 
 RunService:Run()
 
-local url = "_BASE_URL" -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
+local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 
 -----------------------------------"CUSTOM" SHARED CODE----------------------------------
 
@@ -79,7 +79,7 @@ Players.PlayerRemoving:connect(function(player)
 	print(`Player {player.userId} leaving`)
 end)
 
-if _MAP_LOCATION_EXISTS then
+if _MAP_LOCATION and _MAP_LOCATION ~= "" then
 	-- yield so that file load happens in the heartbeat thread
 	RunService.Heartbeat:wait()
 

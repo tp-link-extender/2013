@@ -187,11 +187,6 @@ func main() {
 		fmt.Println("Error reading corescripts directory for signing:", err)
 		return
 	}
-	loadsOutDir, err := os.ReadDir(loadsOut)
-	if err != nil {
-		fmt.Println("Error reading corescripts directory for signing:", err)
-		return
-	}
 	err = os.MkdirAll(assetsOut, 0o755)
 	if err != nil {
 		fmt.Println("Error creating assets output directory:", err)
@@ -212,19 +207,6 @@ func main() {
 		}
 	}
 	fmt.Println("Total corescripts size", totalCores, "bytes")
-
-	var totalLoads int
-	for _, entry := range loadsOutDir {
-		if entry.IsDir() {
-			continue
-		}
-		p := loadsOut + "/" + entry.Name()
-		if err = signScript(p, p, sk, &totalLoads); err != nil {
-			fmt.Println("Error signing loadscript:", err)
-			return
-		}
-	}
-	fmt.Println("Total loadscripts size", totalLoads, "bytes")
 
 	if err = os.RemoveAll(coresTemp); err != nil {
 		fmt.Println("Error removing temporary corescripts directory:", err)

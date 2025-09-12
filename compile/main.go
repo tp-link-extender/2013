@@ -87,7 +87,7 @@ func readScripts(in, out string) ([]Script, error) {
 	return scripts, nil
 }
 
-func signScript(in, out string, sk *rsa.PrivateKey, total *int) error {
+func signScript(in, out string, sk *rsa.PrivateKey, id string, total *int) error {
 	fmt.Println("Signing", in)
 
 	data, err := os.ReadFile(in)
@@ -96,7 +96,7 @@ func signScript(in, out string, sk *rsa.PrivateKey, total *int) error {
 	}
 
 	// signature is a comment, so prepend a newline to prevent the first line from being commented out
-	data = append([]byte{'\n'}, data...)
+	data = append([]byte("\n--rbxassetid%"+id+"%\n"), data...)
 
 	hashed := sha1.Sum(data)
 	// actually works, can you believe it‽
@@ -199,9 +199,10 @@ func main() {
 			continue
 		}
 		name := entry.Name()
+		id := trimExt(name)
 		in := coresTemp + "/" + name
-		out := assetsOut + "/" + trimExt(name)
-		if err = signScript(in, out, sk, &totalCores); err != nil {
+		out := assetsOut + "/" + id
+		if err = signScript(in, out, sk, id, &totalCores); err != nil {
 			fmt.Println("Error signing corescript:", err)
 			return
 		}

@@ -46,25 +46,25 @@ ScriptContext.ScriptsDisabled = true
 ChangeHistoryService:SetEnabled(false)
 
 pcall(function()
-	Players:SetAbuseReportUrl(url .. "/Report/Games.ashx")
+	Players:SetAbuseReportUrl(`{url}/Report/Games.ashx`)
 end)
 pcall(function()
-	ScriptInformationProvider:SetAssetUrl(url .. "/asset/")
+	ScriptInformationProvider:SetAssetUrl(`{url}/asset/`)
 end)
 pcall(function()
-	ContentProvider:SetBaseUrl(url .. "/")
+	ContentProvider:SetBaseUrl(`{url}/`)
 end)
 
 BadgeService:SetIsBadgeLegalUrl ""
 InsertService:SetBaseSetsUrl(
-	url .. "/Game/Tools/InsertAsset.ashx?nsets=10&type=base"
+	`{url}/Game/Tools/InsertAsset.ashx?nsets=10&type=base`
 )
 InsertService:SetUserSetsUrl(
-	url .. "/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d"
+	`{url}/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d`
 )
-InsertService:SetCollectionUrl(url .. "/Game/Tools/InsertAsset.ashx?sid=%d")
-InsertService:SetAssetUrl(url .. "/asset?id=%d")
-InsertService:SetAssetVersionUrl(url .. "/asset?assetversionid=%d")
+InsertService:SetCollectionUrl(`{url}/Game/Tools/InsertAsset.ashx?sid=%d`)
+InsertService:SetAssetUrl(`{url}/asset?id=%d`)
+InsertService:SetAssetVersionUrl(`{url}/asset?assetversionid=%d`)
 
 pcall(function()
 	NetworkServer:SetIsPlayerAuthenticationRequired(true)

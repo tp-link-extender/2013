@@ -1,3 +1,5 @@
-/Corescripts
-/Plugins
+/out
 .luaurc
+compile/PrivateKey.pem
+compile/downloader/downloader
+compile/downloader/key

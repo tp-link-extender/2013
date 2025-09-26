@@ -17,7 +17,7 @@ local NetworkServer = game:GetService "NetworkServer"
 
 RunService:Run()
 
-local url = "_BASE_URL" -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
+local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 
 -----------------------------------"CUSTOM" SHARED CODE----------------------------------
 
@@ -46,25 +46,25 @@ ScriptContext.ScriptsDisabled = true
 ChangeHistoryService:SetEnabled(false)
 
 pcall(function()
-	Players:SetAbuseReportUrl(url .. "/Report/Games.ashx")
+	Players:SetAbuseReportUrl(`{url}/Report/Games.ashx`)
 end)
 pcall(function()
-	ScriptInformationProvider:SetAssetUrl(url .. "/asset/")
+	ScriptInformationProvider:SetAssetUrl(`{url}/asset/`)
 end)
 pcall(function()
-	ContentProvider:SetBaseUrl(url .. "/")
+	ContentProvider:SetBaseUrl(`{url}/`)
 end)
 
 BadgeService:SetIsBadgeLegalUrl ""
 InsertService:SetBaseSetsUrl(
-	url .. "/Game/Tools/InsertAsset.ashx?nsets=10&type=base"
+	`{url}/Game/Tools/InsertAsset.ashx?nsets=10&type=base`
 )
 InsertService:SetUserSetsUrl(
-	url .. "/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d"
+	`{url}/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d`
 )
-InsertService:SetCollectionUrl(url .. "/Game/Tools/InsertAsset.ashx?sid=%d")
-InsertService:SetAssetUrl(url .. "/asset?id=%d")
-InsertService:SetAssetVersionUrl(url .. "/asset?assetversionid=%d")
+InsertService:SetCollectionUrl(`{url}/Game/Tools/InsertAsset.ashx?sid=%d`)
+InsertService:SetAssetUrl(`{url}/asset?id=%d`)
+InsertService:SetAssetVersionUrl(`{url}/asset?assetversionid=%d`)
 
 pcall(function()
 	NetworkServer:SetIsPlayerAuthenticationRequired(true)
@@ -79,7 +79,7 @@ Players.PlayerRemoving:connect(function(player)
 	print(`Player {player.userId} leaving`)
 end)
 
-if _MAP_LOCATION_EXISTS then
+if _MAP_LOCATION and _MAP_LOCATION ~= "" then
 	-- yield so that file load happens in the heartbeat thread
 	RunService.Heartbeat:wait()
 

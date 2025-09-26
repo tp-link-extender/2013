@@ -3563,7 +3563,7 @@ declare _PLACE_ID: number
 declare _IS_STUDIO_JOIN: string
 declare _USER_NAME: any
 declare _MAP_LOCATION: any
-declare _MAP_LOCATION_EXISTS: boolean
+-- declare _MAP_LOCATION_EXISTS: boolean
 declare _SERVER: boolean
 declare _CLIENT: boolean
 

@@ -124,7 +124,7 @@ local function onConnectionAccepted(_, rep: Instance)
 	local waitingForMarker = true
 
 	local ok, err = pcall(function()
-		Visit:SetPing(_PING_URL, 30)
+		Visit:SetPing(_PING_URL, 30) -- in this case, the _PING_URL is to the Site
 
 		loadingState += 1
 		game:SetMessageBrickCount()

@@ -7,10 +7,12 @@ local InsertService = game:GetService "InsertService"
 
 local function post(url: string, body: string)
 	-- We have to lie about the contentType to avoid being nuked by CORS from the website (yes, the parameter exists in 2015)
+	-- print(`[{game.JobId}] POSTing to {url} with body length {#body}`)
 	game:HttpPost(url, body, true, "text/json")
 end
 
-return function(baseUrl: string, pingUrl: string, thumbnailKey: string)
+-- The pingUrl is to the RCCService proxy
+return function(baseUrl: string, pingUrl: string)
 	local Render = {}
 
 	-- print(`[{game.JobId}] Setting asset URLs....`)
@@ -36,13 +38,13 @@ return function(baseUrl: string, pingUrl: string, thumbnailKey: string)
 	ScriptContext.ScriptsDisabled = true
 
 	-- print(`[{game.JobId}] Sending rendering ping...`)
-	post(`{pingUrl}?apiKey={thumbnailKey}`, "Rendering")
+	post(pingUrl, "Rendering")
 
 	function Render.Upload(result: string)
 		-- print(`[{game.JobId}] Uploading render...`)
 		for i = 1, 3 do
 			local ok, err = pcall(function()
-				post(`{pingUrl}?apiKey={thumbnailKey}`, result)
+				post(pingUrl, result)
 			end)
 			if ok then
 				print(`[{game.JobId}] Upload successful! Moving on...`)

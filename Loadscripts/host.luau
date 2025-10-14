@@ -17,8 +17,6 @@ local NetworkServer = game:GetService "NetworkServer"
 
 RunService:Run()
 
-local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
-
 -----------------------------------"CUSTOM" SHARED CODE----------------------------------
 
 settings().Network.UseInstancePacketCache = true
@@ -44,6 +42,8 @@ ScriptContext.ScriptsDisabled = true
 
 -- game:SetPlaceId(nil, false)
 ChangeHistoryService:SetEnabled(false)
+
+local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 
 pcall(function()
 	Players:SetAbuseReportUrl(`{url}/Report/Games.ashx`)
@@ -79,12 +79,14 @@ Players.PlayerRemoving:connect(function(player)
 	print(`Player {player.userId} leaving`)
 end)
 
-if _MAP_LOCATION and _MAP_LOCATION ~= "" then
+local mapLoc = _MAP_LOCATION
+
+if mapLoc and mapLoc ~= "" then
 	-- yield so that file load happens in the heartbeat thread
 	RunService.Heartbeat:wait()
 
 	-- load the game
-	game:Load(_MAP_LOCATION)
+	game:Load(mapLoc)
 end
 
 -- Now start the connection

@@ -15,10 +15,12 @@ local clickBody = ThumbnailGenerator:Click("PNG", 840, 840, true)
 
 print(`[{game.JobId}] Rendered bodyshot`)
 
-player.Character.Torso["Right Shoulder"].CurrentAngle = 0
+local char = player.Character
+
+char.Torso["Right Shoulder"].CurrentAngle = 0
 
 -- Headshot Camera
-local CameraAngle = player.Character.Head.CFrame
+local CameraAngle = char.Head.CFrame
 local CameraPosition = CameraAngle
 	+ CFrame.Angles(0, math.pi, 0).lookVector.Unit * 2.75
 
@@ -27,7 +29,7 @@ workspace.CurrentCamera = New "Camera" {
 	CameraType = Enum.CameraType.Scriptable,
 	CoordinateFrame = CFrame.new(CameraPosition.p, CameraAngle.p),
 	FieldOfView = 52.5,
-	Parent = player.Character,
+	Parent = char,
 }
 
 local clickHead = ThumbnailGenerator:Click("PNG", 300, 300, true)

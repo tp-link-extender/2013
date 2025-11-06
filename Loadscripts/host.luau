@@ -1,21 +1,48 @@
+--!strict
+
 -- Start Game
 print "[Mercury]: Loaded Host corescript"
 
+local InsertService = game:GetService "InsertService"
+local BadgeService = game:GetService "BadgeService"
+local ScriptContext = game:GetService "ScriptContext"
+local RunService = game:GetService "RunService"
+local ScriptInformationProvider =
+	game:GetService "ScriptInformationProvider" :: ScriptInformationProvider
+local ChangeHistoryService = game:GetService "ChangeHistoryService"
+local ContentProvider = game:GetService "ContentProvider"
+local Players = game:GetService "Players"
+local Visit = game:GetService "Visit"
+
+-- establish this peer as the Server
+local NetworkServer = game:GetService "NetworkServer"
+
+local function inactivityHandler()
+	-- better than checking every time because we won't miss anything this way
+	local anyoneThere = false
+
+	local conn: RBXScriptConnection
+	conn = Players.PlayerAdded:connect(function()
+		anyoneThere = true
+		conn:disconnect()
+	end)
+
+	for i = 1, 300 do
+		wait(1)
+		if anyoneThere then
+			print "Server activity occured, aborting shutdown"
+			return
+		end
+	end
+
+	-- Seeya!
+	game:Shutdown()
+end
+
+local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
+local mapLoc = _MAP_LOCATION
+
 delay(0, function()
-	local InsertService = game:GetService "InsertService"
-	local BadgeService = game:GetService "BadgeService"
-	local ScriptContext = game:GetService "ScriptContext"
-	local RunService = game:GetService "RunService"
-	local ScriptInformationProvider =
-		game:GetService "ScriptInformationProvider" :: ScriptInformationProvider
-	local ChangeHistoryService = game:GetService "ChangeHistoryService"
-	local ContentProvider = game:GetService "ContentProvider"
-	local Players = game:GetService "Players"
-	local Visit = game:GetService "Visit"
-
-	-- establish this peer as the Server
-	local NetworkServer = game:GetService "NetworkServer"
-
 	RunService:Run()
 
 	-----------------------------------"CUSTOM" SHARED CODE----------------------------------
@@ -43,8 +70,6 @@ delay(0, function()
 
 	-- game:SetPlaceId(nil, false)
 	ChangeHistoryService:SetEnabled(false)
-
-	local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 
 	pcall(function()
 		Players:SetAbuseReportUrl(`{url}/Report/Games.ashx`)
@@ -80,8 +105,6 @@ delay(0, function()
 		print(`Player {player.userId} leaving`)
 	end)
 
-	local mapLoc = _MAP_LOCATION
-
 	if mapLoc and mapLoc ~= "" then
 		-- yield so that file load happens in the heartbeat thread
 		RunService.Heartbeat:wait()
@@ -95,12 +118,34 @@ delay(0, function()
 	Visit:SetPing(_SERVER_PRESENCE_URL, 30)
 	ScriptContext.ScriptsDisabled = false
 
+	-- right here
+	Players.PlayerRemoving:connect(function(child)
+		if #Players:GetChildren() == 0 then
+			return
+		end
+
+		print "Server is inactive, shutting down in 5 minutes"
+		inactivityHandler()
+	end)
+
 	-- yimy stuff
 	Players.PlayerAdded:connect(function(player)
 		player.Chatted:connect(function(msg)
-			if msg == ";mc" and player.Character then
-				player.Character.Humanoid.Health = 0
+			if msg ~= ";mc" then
+				return
 			end
+
+			local character = player.Character
+			if not character then
+				return
+			end
+
+			local humanoid = character:FindFirstChild "Humanoid" :: Humanoid?
+			if not humanoid then
+				return
+			end
+
+			humanoid.Health = 0
 		end)
 	end)
 end)

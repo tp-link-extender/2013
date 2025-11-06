@@ -118,7 +118,8 @@ delay(0, function()
 	Visit:SetPing(_SERVER_PRESENCE_URL, 30)
 	ScriptContext.ScriptsDisabled = false
 
-	-- right here
+	inactivityHandler()
+
 	Players.PlayerRemoving:connect(function(child)
 		if #Players:GetChildren() == 0 then
 			return

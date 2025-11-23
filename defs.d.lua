@@ -3121,7 +3121,7 @@ declare class DataModel extends ServiceProvider
 	LocalSaveEnabled: boolean
 	PlaceId: number
 	PlaceVersion: number
-	RequestShutdown: () -> boolean
+	RequestShutdown: () -> boolean -- todo check if exists
 	Workspace: Object
 	function AddStat(self, displayName: string, stat: string): ()
 	function ClearContent(self, resettingSimulation: boolean): ()

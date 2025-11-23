@@ -165,7 +165,9 @@ end
 local function findSeatsInModel(parent, seatTable)
 	if not parent then
 		return
-	elseif parent.className == "Seat" or parent.className == "VehicleSeat" then
+	end
+
+	if parent.className == "Seat" or parent.className == "VehicleSeat" then
 		table.insert(seatTable, parent)
 	end
 	local myChildren = parent:GetChildren()
@@ -187,14 +189,15 @@ local function setSeatEnabledStatus(model, isEnabled)
 				nextSeat = seatList[i]:FindFirstChild "SeatWeld"
 			end
 		end
-	else
-		-- put a weld called "SeatWeld" in every seat
-		-- this tricks it into thinking there's already someone sitting there, and it won't make you sit XD
-		for i = 1, #seatList do
-			local fakeWeld = Instance.new "Weld"
-			fakeWeld.Name = "SeatWeld"
-			fakeWeld.Parent = seatList[i]
-		end
+		return
+	end
+
+	-- put a weld called "SeatWeld" in every seat
+	-- this tricks it into thinking there's already someone sitting there, and it won't make you sit XD
+	for i = 1, #seatList do
+		local fakeWeld = Instance.new "Weld"
+		fakeWeld.Name = "SeatWeld"
+		fakeWeld.Parent = seatList[i]
 	end
 end
 
@@ -311,28 +314,22 @@ local function modelTargetSurface(partOrModel, rayStart, rayEnd)
 		modelSize.Z / 2 * zPositive
 	)
 
-	local hitFace = 0
-
 	--if xHitTime >= 0 and yHitTime >= 0 and zHitTime >= 0 then
 	if xHitTime > yHitTime then
 		if xHitTime > zHitTime then
 			-- xFace is hit
-			hitFace = 1 * xPositive
-		else
-			-- zFace is hit
-			hitFace = 3 * zPositive
+			return 1 * xPositive
 		end
-	else
-		if yHitTime > zHitTime then
-			-- yFace is hit
-			hitFace = 2 * yPositive
-		else
-			-- zFace is hit
-			hitFace = 3 * zPositive
-		end
+		-- zFace is hit
+		return 3 * zPositive
 	end
 
-	return hitFace
+	if yHitTime > zHitTime then
+		-- yFace is hit
+		return 2 * yPositive
+	end
+	-- zFace is hit
+	return 3 * zPositive
 end
 
 local function getBoundingBox2(partOrModel)
@@ -544,9 +541,9 @@ local function findConfigAtMouseTarget(
 	local cellPos
 
 	-- Nothing was hit, so check for the default plane.
-	if nil == targetPart then
+	if not targetPart then
 		cellPos = GetTerrainForMouse(Mouse)
-		if nil == cellPos then
+		if not cellPos then
 			hitPlane = false
 			return admissibleConfig, targetConfig
 		end
@@ -563,10 +560,21 @@ local function findConfigAtMouseTarget(
 	local diagBBTarget = maxBBTarget - minBBTarget
 	local targetCFrame = getMouseTargetCFrame(targetPart)
 
+	-- find which axis of the insertion objects should match with the target surface
+	-- this should use targetPart CFrame, not the model CFrame
+
+	--[[ attempt at fixing Mouse.TargetSurface below...
+	local targetModel = targetPart
+	if not targetPart:FindFirstChild("RobloxModel") and targetPart.Parent and targetPart.Parent:FindFirstChild("RobloxModel") then targetModel = targetPart.Parent end
+	local correctedTargetSurfaceVector = surfaceToVector(modelTargetSurface(targetModel, workspace.CurrentCamera.CoordinateFrame.p, mouseHitInWorld))
+	local targetVectorInWorld = targetPart.CFrame:vectorToWorldSpace(correctedTargetSurfaceVector)
+	--]]
+
 	if targetPart:IsA "Terrain" then
 		if not cluster then
 			cluster = workspace:FindFirstChild "Terrain" :: Terrain
 		end
+
 		local cellID = cluster:WorldToCellPreferSolid(mouseHitInWorld)
 		if hitPlane then
 			cellID = cellPos
@@ -650,8 +658,11 @@ local function findConfigAtMouseTarget(
 		clampToSurface = Vector3.new(1, 1, 0)
 	end
 
-	targetRefPointInTarget *= (0.5 * diagBBTarget) + 0.5 * (maxBBTarget + minBBTarget)
-	insertRefPointInInsert *= (0.5 * diagBB) + 0.5 * (maxBB + minBB)
+	-- never noticed this bug but it was here all along... - Heliodex
+	targetRefPointInTarget = targetRefPointInTarget * (0.5 * diagBBTarget)
+		+ 0.5 * (maxBBTarget + minBBTarget)
+	insertRefPointInInsert = insertRefPointInInsert * (0.5 * diagBB)
+		+ 0.5 * (maxBB + minBB)
 
 	-- To Do: For cases that are not aligned to the world grid, account for the minimal rotation
 	-- needed to bring the Insert part(s) into alignment with the Target Part
@@ -865,15 +876,17 @@ end
 function RbxStamper.GetStampModel(assetId, terrainShape, useAssetVersionId)
 	if assetId == 0 then
 		return nil, "No Asset"
-	elseif assetId < 0 then
+	end
+
+	if assetId < 0 then
 		return nil, "Negative Asset"
 	end
 
 	-- This call will cause a "wait" until the data comes back
 	-- below we wait a max of 8 seconds before deciding to bail out on loading
 	local root
-	local loader
 	local loading = true
+	local loader
 	if useAssetVersionId then
 		loader = coroutine.create(function()
 			root = InsertService:LoadAssetVersion(assetId)
@@ -947,31 +960,30 @@ function RbxStamper.GetStampModel(assetId, terrainShape, useAssetVersionId)
 		end
 	end
 
-	if terrainShape and root.Name == "MegaClusterCube" then
-		if terrainShape == 6 then -- insert an autowedging tag
-			local autowedgeTag = Instance.new "BoolValue"
-			autowedgeTag.Name = "AutoWedge"
-			autowedgeTag.Parent = root
-		else
-			local clusterTag = root:FindFirstChild "ClusterMaterial"
-			if clusterTag then
-				if clusterTag:IsA "Vector3Value" then
-					root = setupFakeTerrainPart(
-						clusterTag.Value.X,
-						terrainShape,
-						clusterTag.Value.Z
-					)
-				else
-					root =
-						setupFakeTerrainPart(clusterTag.Value, terrainShape, 0)
-				end
-			else
-				root = setupFakeTerrainPart(1, terrainShape, 0)
-			end
-		end
+	if not (terrainShape and root.Name == "MegaClusterCube") then
+		return root
 	end
 
-	return root
+	if terrainShape == 6 then -- insert an autowedging tag
+		local autowedgeTag = Instance.new "BoolValue"
+		autowedgeTag.Name = "AutoWedge"
+		autowedgeTag.Parent = root
+		return root
+	end
+
+	local clusterTag = root:FindFirstChild "ClusterMaterial"
+	if clusterTag then
+		if clusterTag:IsA "Vector3Value" then
+			return setupFakeTerrainPart(
+				clusterTag.Value.X,
+				terrainShape,
+				clusterTag.Value.Z
+			)
+		end
+		return setupFakeTerrainPart(clusterTag.Value, terrainShape, 0)
+	end
+
+	return setupFakeTerrainPart(1, terrainShape, 0)
 end
 
 local function isMegaClusterPart(stampData: {
@@ -1180,7 +1192,8 @@ local function flashRedBox(stampData: {
 		end
 		if stampData.ErrorBox then
 			stampData.ErrorBox.Adornee = nil
-			stampData.ErrorBox.Parent = Tool -- ?
+			-- stampData.ErrorBox.Parent = Tool -- ? (see StampScript for more info) - Heliodex
+			stampData.ErrorBox.Parent = nil
 		end
 	end)
 end
@@ -1194,16 +1207,15 @@ local function loadSurfaceTypes(part, surfaces)
 	part.BackSurface = surfaces[6]
 end
 
-local function saveSurfaceTypes(part, myTable)
-	local tempTable = {}
-	tempTable[1] = part.TopSurface
-	tempTable[2] = part.BottomSurface
-	tempTable[3] = part.LeftSurface
-	tempTable[4] = part.RightSurface
-	tempTable[5] = part.FrontSurface
-	tempTable[6] = part.BackSurface
-
-	myTable[part] = tempTable
+local function surfaceTypes(part)
+	return {
+		part.TopSurface,
+		part.BottomSurface,
+		part.LeftSurface,
+		part.RightSurface,
+		part.FrontSurface,
+		part.BackSurface,
+	}
 end
 
 local function checkTerrainBlockCollisions(
@@ -2118,7 +2130,7 @@ function RbxStamper.SetupStamperDragger(
 			stampData.ArchivableTable[part] = part.Archivable
 			part.Archivable = false
 
-			saveSurfaceTypes(part, stampData.SurfaceTypeTable)
+			stampData.SurfaceTypeTable[part] = surfaceTypes(part)
 
 			local fadeInDelayTime = 0.5
 			local transFadeInTime = 0.5

@@ -8,17 +8,24 @@ local SetupAvatar = require "../Modules/Render/SetupAvatar"
 local Render = RenderModule(_BASE_URL, _PING_URL, _THUMBNAIL_KEY) -- avoid ambiguous syntax after compilation
 local New = require("../Modules/New").New
 
-local player =
+local character, shoulder =
 	SetupAvatar(_BASE_URL, _RENDER_TYPE, _ASSET_ID, "/asset/characterfetch/")
+if not character then
+	error(
+		`[{game.JobId}] Failed to set up avatar for {_RENDER_TYPE} ID {_ASSET_ID}`
+	)
+end
 
 local clickBody = ThumbnailGenerator:Click("PNG", 840, 840, true)
 
 print(`[{game.JobId}] Rendered bodyshot`)
 
-player.Character.Torso["Right Shoulder"].CurrentAngle = 0
+if shoulder then
+	shoulder.CurrentAngle = 0
+end
 
 -- Headshot Camera
-local CameraAngle = player.Character.Head.CFrame
+local CameraAngle = character.Head.CFrame
 local CameraPosition = CameraAngle
 	+ CFrame.Angles(0, math.pi, 0).lookVector.Unit * 2.75
 
@@ -27,7 +34,7 @@ workspace.CurrentCamera = New "Camera" {
 	CameraType = Enum.CameraType.Scriptable,
 	CoordinateFrame = CFrame.new(CameraPosition.p, CameraAngle.p),
 	FieldOfView = 52.5,
-	Parent = player.Character,
+	Parent = character,
 }
 
 local clickHead = ThumbnailGenerator:Click("PNG", 300, 300, true)

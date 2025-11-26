@@ -135,9 +135,8 @@ function MouseHighlighter.Create(mouseUse)
 			-- Require terrain.
 			if 0 == GetCell(c, cellPos.X, cellPos.Y, cellPos.Z).Value then
 				return
-			else
-				highlighter.lastUsedPoint = cellPos
 			end
+			highlighter.lastUsedPoint = cellPos
 		end
 	end
 

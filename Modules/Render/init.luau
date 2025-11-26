@@ -38,7 +38,14 @@ return function(baseUrl: string, pingUrl: string)
 	ScriptContext.ScriptsDisabled = true
 
 	-- print(`[{game.JobId}] Sending rendering ping...`)
-	post(pingUrl, "Rendering")
+	ok, err = pcall(function()
+		post(pingUrl`, "Rendering")
+	end)
+	if not ok then
+		error(`[{game.JobId}] Failed to send rendering ping: {err}`)
+		-- else
+		-- 	print(`[{game.JobId}] Successfully sent rendering ping!`)
+	end
 
 	function Render.Upload(result: string)
 		-- print(`[{game.JobId}] Uploading render...`)
@@ -48,11 +55,11 @@ return function(baseUrl: string, pingUrl: string)
 			end)
 			if ok then
 				print(`[{game.JobId}] Upload successful! Moving on...`)
-				break
+				return
 			end
 			if i == 3 then
-				print(`[{game.JobId}] An error occurred! ({err}). Giving up...`)
-				break
+				print(`[{game.JobId}] An error occurred! ({err}). Giving up...`) -- meirl
+				return
 			end
 			print(
 				`[{game.JobId}] An error occurred! ({err}). Uploading again...`

@@ -246,7 +246,7 @@ type New =
 	& ((className: "Wire") -> Return<Wire>)
 
 local function propsApplier(obj)
-	return function(props: { [string]: any })
+	return function(props: { [string | number]: any })
 		local parent
 
 		for k, v in pairs(props) do
@@ -273,6 +273,6 @@ end :: New
 
 local Hydrate = function(target)
 	return propsApplier(target)
-end :: <T>(T) -> (props: { [string]: any }) -> T
+end :: <T>(T) -> (props: { [string | number]: any }) -> T
 
 return { New = New, Hydrate = Hydrate }

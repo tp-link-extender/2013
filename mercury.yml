@@ -31,8 +31,6 @@ globals:
     args: []
   _PING_URL:
     args: []
-  _THUMBNAIL_KEY:
-    args: []
   _RENDER_TYPE:
     args: []
   _ASSET_ID:

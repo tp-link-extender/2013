@@ -2503,6 +2503,9 @@ declare class NetworkServer extends NetworkPeer
 	function GetClientCount(self): number
 	function Start(self, port: number?, threadSleepTime: number?): ()
 	function Stop(self, blockDuration: number?): ()
+
+	-- probably existst
+	function SetIsPlayerAuthenticationRequired(self, value: boolean): ()
 end
 
 declare class NetworkReplicator extends Instance
@@ -2896,6 +2899,9 @@ declare class Players extends Instance
 	function SetSysStatsUrlId(self, urlId: string): ()
 	function TeamChat(self, message: string): ()
 	function WhisperChat(self, message: string, player: Instance): ()
+
+	-- also probably exist
+	function SetAbuseReportUrl(self, url: string): ()
 end
 
 declare class Plugin extends Instance
@@ -3562,14 +3568,13 @@ declare _SERVER_PRESENCE_URL: string
 declare _PLACE_ID: number
 declare _IS_STUDIO_JOIN: string
 declare _USER_NAME: any
-declare _MAP_LOCATION: any
+declare _MAP_LOCATION: string
 -- declare _MAP_LOCATION_EXISTS: boolean
 declare _SERVER: boolean
 declare _CLIENT: boolean
 
 declare _BASE_URL: string
 declare _PING_URL: string
-declare _THUMBNAIL_KEY: string
 declare _RENDER_TYPE: string
 declare _ASSET_ID: number
 declare _CHAR_APPEARANCE: string

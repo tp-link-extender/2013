@@ -39,7 +39,7 @@ return function(baseUrl: string, pingUrl: string)
 
 	-- print(`[{game.JobId}] Sending rendering ping...`)
 	ok, err = pcall(function()
-		post(pingUrl`, "Rendering")
+		post(pingUrl, "Rendering")
 	end)
 	if not ok then
 		error(`[{game.JobId}] Failed to send rendering ping: {err}`)

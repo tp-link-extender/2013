@@ -1,4 +1,4 @@
 [tools]
 darklua = "seaofvoices/darklua@0.17.2"
-stylua = "JohnnyMorganz/StyLua@2.3.0"
+stylua = "JohnnyMorganz/StyLua@2.3.1"
 selene = "kampfkarren/selene@0.29.0"

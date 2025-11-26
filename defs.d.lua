@@ -2883,7 +2883,7 @@ declare class Players extends Instance
 	PlayerRemovingLate: RBXScriptSignal<Instance>
 	function AddLeaderboardKey(self, key: string): ()
 	function Chat(self, message: string): ()
-	function CreateLocalPlayer(self, userId: number): Instance
+	function CreateLocalPlayer(self, userId: number): Player
 	function GetPlayerByID(self, userID: number): Instance
 	function GetPlayerFromCharacter(self, character: Model): Player?
 	function GetPlayers(self): { Player }

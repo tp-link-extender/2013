@@ -34,8 +34,9 @@ end)
 local threadSleepTime = 15
 
 -- local test = _IS_STUDIO_JOIN -- unused
+local addr = _SERVER_ADDRESS
 
-print "! Joining place _PLACE_ID at _SERVER_ADDRESS"
+print ("! Joining place _PLACE_ID at " .. addr)
 
 ChangeHistoryService:SetEnabled(false)
 ContentProvider:SetThreadPool(16)
@@ -79,7 +80,7 @@ local function setMessage(message: string)
 	game:SetMessage(message)
 end
 
-local function reportError(err)
+local function reportError(err: string)
 	print("***ERROR*** " .. err)
 	Visit:SetUploadUrl ""
 	Client:Disconnect()
@@ -108,7 +109,7 @@ local function requestCharacter(replicator)
 
 	setLoadingMessage "Requesting character"
 
-	local ok, err = pcall(function()
+	local ok, err: string = pcall(function()
 		replicator:RequestCharacter()
 		setLoadingMessage "Waiting for character"
 	end)
@@ -123,7 +124,7 @@ local function onConnectionAccepted(_, rep: Instance)
 	local replicator = rep :: NetworkReplicator
 	local waitingForMarker = true
 
-	local ok, err = pcall(function()
+	local ok, err: string = pcall(function()
 		Visit:SetPing(_PING_URL, 30) -- in this case, the _PING_URL is to the Site
 
 		loadingState += 1
@@ -180,7 +181,7 @@ end
 -- main ------------------------------------------------------------
 
 settings().Diagnostics:LegacyScriptMode()
-local ok, err = pcall(function()
+local ok, err: string = pcall(function()
 	game:SetRemoteBuildMode(true)
 
 	setLoadingMessage "Connecting to server"
@@ -191,7 +192,7 @@ local ok, err = pcall(function()
 
 	player = Client:PlayerConnect(
 		_USER_ID,
-		"_SERVER_ADDRESS",
+		addr,
 		_SERVER_PORT,
 		0,
 		threadSleepTime
@@ -209,7 +210,7 @@ local ok, err = pcall(function()
 	player.Idled:connect(onPlayerIdled)
 
 	pcall(function()
-		player.Name = [========[_USER_NAME]========]
+		player.Name = _USERNAME
 	end)
 	player.CharacterAppearance = _CHAR_APPEARANCE
 	Visit:SetUploadUrl ""

@@ -3567,7 +3567,7 @@ declare _SERVER_PORT: number
 declare _SERVER_PRESENCE_URL: string
 declare _PLACE_ID: number
 declare _IS_STUDIO_JOIN: string
-declare _USER_NAME: any
+declare _USERNAME: any
 declare _MAP_LOCATION: string
 -- declare _MAP_LOCATION_EXISTS: boolean
 declare _SERVER: boolean

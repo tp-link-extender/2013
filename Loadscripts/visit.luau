@@ -1,3 +1,4 @@
+--!strict
 print "[Mercury]: Loaded Visit corescript"
 
 local ChangeHistoryService = game:GetService "ChangeHistoryService"
@@ -13,8 +14,6 @@ local Visit = game:GetService "Visit"
 
 local BaseUrl = require "../Modules/BaseUrl"
 local path = BaseUrl.path
-
-local player
 
 -- Prepended to Edit.lua and Visit.lua and Studio.lua and PlaySolo.lua--
 
@@ -108,7 +107,7 @@ end)
 
 workspace:SetPhysicsThrottleEnabled(true)
 
-local ok, err = pcall(function()
+local ok, err: string = pcall(function()
 	message.Text = "Loading Game"
 
 	pcall(function()
@@ -120,7 +119,7 @@ local ok, err = pcall(function()
 
 	message.Text = "Creating Player"
 
-	player = Players:CreateLocalPlayer(0)
+	local player = Players:CreateLocalPlayer(0)
 
 	player.CharacterAppearance = ""
 	local propExists, canAutoLoadChar = false, false
@@ -134,6 +133,7 @@ local ok, err = pcall(function()
 
 	message.Text = "Setting GUI"
 	player:SetSuperSafeChat(true)
+
 	pcall(function()
 		player:SetMembershipType(Enum.MembershipType.None)
 	end)
@@ -144,9 +144,10 @@ end)
 
 if ok then
 	message.Parent = nil
-else
-	print(err)
-
-	wait(5)
-	message.Text = "Error on visit: " .. err
+	return
 end
+
+print(err)
+
+wait(5)
+message.Text = "Error on visit: " .. err

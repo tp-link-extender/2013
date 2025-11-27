@@ -6,8 +6,8 @@ globals:
   # Substitutions
   _USER_ID:
     args: []
-  _CREATOR_ID:
-    args: []
+  # _CREATOR_ID:
+  #   args: []
   _SERVER_ADDRESS:
     args: []
   _SERVER_PORT:

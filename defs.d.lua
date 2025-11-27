@@ -3561,7 +3561,7 @@ declare function PluginManager(): PluginManager
 declare function ypcall(f: (() -> any) | (() -> ()) | ((...any) -> (), (...any) -> ()) -> (), ...: any): (boolean, any)
 
 declare _USER_ID: number
-declare _CREATOR_ID: number
+-- declare _CREATOR_ID: number
 declare _SERVER_ADDRESS: any
 declare _SERVER_PORT: number
 declare _SERVER_PRESENCE_URL: string

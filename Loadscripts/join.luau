@@ -36,7 +36,7 @@ local threadSleepTime = 15
 -- local test = _IS_STUDIO_JOIN -- unused
 local addr = _SERVER_ADDRESS
 
-print ("! Joining place _PLACE_ID at " .. addr)
+print("! Joining place _PLACE_ID at " .. addr)
 
 ChangeHistoryService:SetEnabled(false)
 ContentProvider:SetThreadPool(16)
@@ -80,8 +80,8 @@ local function setMessage(message: string)
 	game:SetMessage(message)
 end
 
-local function reportError(err: string)
-	print("***ERROR*** " .. err)
+local function reportError(pos: string, err: string)
+	print("***ERROR***", pos, err)
 	Visit:SetUploadUrl ""
 	Client:Disconnect()
 	wait(4)
@@ -115,7 +115,7 @@ local function requestCharacter(replicator)
 	end)
 
 	if not ok then
-		reportError(err)
+		reportError("requestCharacter", err)
 	end
 end
 
@@ -142,7 +142,7 @@ local function onConnectionAccepted(_, rep: Instance)
 	end)
 
 	if not ok then
-		reportError(err)
+		reportError("onConnectionAccepted", err)
 		return
 	end
 
@@ -217,7 +217,7 @@ local ok, err: string = pcall(function()
 end)
 
 if not ok then
-	reportError(err)
+	reportError("connect", err)
 end
 
 pcall(function()

@@ -2,6 +2,8 @@
 print "[Mercury]: Loaded Join corescript"
 
 local InsertService = game:GetService "InsertService"
+-- local ScriptInformationProvider =
+-- 	game:GetService "ScriptInformationProvider" :: ScriptInformationProvider
 local ChangeHistoryService = game:GetService "ChangeHistoryService"
 local ContentProvider = game:GetService "ContentProvider"
 local Players = game:GetService "Players"
@@ -40,6 +42,9 @@ print("! Joining place _PLACE_ID at " .. addr)
 
 ChangeHistoryService:SetEnabled(false)
 ContentProvider:SetThreadPool(16)
+
+-- test
+-- ScriptInformationProvider:SetAssetUrl(path "asset/")
 InsertService:SetBaseSetsUrl(path "game/tools/insertasset?nsets=10&type=base")
 InsertService:SetUserSetsUrl(
 	path "game/tools/insertasset?nsets=20&type=user&userid=%d"
@@ -185,11 +190,13 @@ local ok, err: string = pcall(function()
 	game:SetRemoteBuildMode(true)
 
 	setLoadingMessage "Connecting to server"
+	print "Setting up events"
 	Client.ConnectionAccepted:connect(onConnectionAccepted)
 	Client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = Client.ConnectionFailed:connect(onConnectionFailed)
 	Client.Ticket = ""
 
+	print "Connecting player"
 	player = Client:PlayerConnect(
 		_USER_ID,
 		addr,
@@ -197,6 +204,7 @@ local ok, err: string = pcall(function()
 		0,
 		threadSleepTime
 	) :: Player
+	print "Player connected"
 	player:SetSuperSafeChat(false)
 	pcall(function()
 		player:SetUnder13(false)
@@ -207,6 +215,7 @@ local ok, err: string = pcall(function()
 	pcall(function()
 		player:SetAccountAge(1)
 	end)
+	print "Connecting events for player"
 	player.Idled:connect(onPlayerIdled)
 
 	pcall(function()
@@ -214,6 +223,7 @@ local ok, err: string = pcall(function()
 	end)
 	player.CharacterAppearance = _CHAR_APPEARANCE
 	Visit:SetUploadUrl ""
+	print "Setup complete"
 end)
 
 if not ok then

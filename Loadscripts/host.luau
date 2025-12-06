@@ -39,7 +39,7 @@ local function inactivityHandler()
 	game:Shutdown()
 end
 
-local url = _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
+local url = "http://" .. _BASE_URL -- can't use the BaseUrl module because ContentProvider.BaseUrl isn't set yet
 local mapLoc = _MAP_LOCATION
 
 delay(0, function()
@@ -78,7 +78,7 @@ delay(0, function()
 		ScriptInformationProvider:SetAssetUrl(`{url}/asset/`)
 	end)
 	pcall(function()
-		ContentProvider:SetBaseUrl(`http://{url}`) -- testing whatever
+		ContentProvider:SetBaseUrl(`{url}/`) -- testing whatever
 	end)
 
 	BadgeService:SetIsBadgeLegalUrl ""

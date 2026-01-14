@@ -7,7 +7,9 @@ local Render = RenderModule(_BASE_URL, _PING_URL) -- avoid ambiguous syntax afte
 
 print(`[{game.JobId}] Starting new render for {_RENDER_TYPE} Id {_ASSET_ID}`)
 
-for _, object in pairs(game:GetObjects(`{_BASE_URL}/asset?id={_ASSET_ID}`)) do
+local url = `http://{_BASE_URL}/asset?id={_ASSET_ID}`
+
+for _, object in pairs(game:GetObjects(url)) do
 	pcall(function()
 		object.Parent = workspace
 	end)

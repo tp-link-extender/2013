@@ -29,8 +29,8 @@ local showAdminCategories = variables.ShowAdminCategories
 waitForChild(variables, "ReloadCurrentAsset")
 waitForChild(variables,"userIDs")
 
-game:GetService("ContentProvider"):Preload("http://www.mercs.dev/asset/?id=42163425")
-game:GetService("ContentProvider"):Preload("http://www.mercs.dev/asset/?id=42563487")
+game:GetService("ContentProvider"):Preload("http://www.mercs.dev/asset?id=42163425")
+game:GetService("ContentProvider"):Preload("http://www.mercs.dev/asset?id=42563487")
 
 local BaseUrl = game:GetService("ContentProvider").BaseUrl
 

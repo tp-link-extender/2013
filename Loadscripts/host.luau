@@ -75,7 +75,7 @@ delay(0, function()
 		Players:SetAbuseReportUrl(`{url}/Report/Games.ashx`)
 	end)
 	pcall(function()
-		ScriptInformationProvider:SetAssetUrl(`{url}/asset/`)
+		ScriptInformationProvider:SetAssetUrl(`{url}/asset`)
 	end)
 	pcall(function()
 		ContentProvider:SetBaseUrl(`{url}/`) -- testing whatever

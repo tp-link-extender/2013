@@ -1,8 +1,8 @@
 --!strict
 local ContentProvider = game:GetService "ContentProvider"
 
--- remove www
-local url = string.gsub(ContentProvider.BaseUrl, "www.", "")
+-- don't remove www
+local url = ContentProvider.BaseUrl
 
 local BaseUrl = {}
 

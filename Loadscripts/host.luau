@@ -78,7 +78,7 @@ delay(0, function()
 		ScriptInformationProvider:SetAssetUrl(`{url}/asset`)
 	end)
 	pcall(function()
-		ContentProvider:SetBaseUrl(`{url}/`) -- testing whatever
+		ContentProvider:SetBaseUrl(url) -- testing whatever
 	end)
 
 	BadgeService:SetIsBadgeLegalUrl ""

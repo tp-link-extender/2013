@@ -2549,7 +2549,7 @@ local function cancelAssetPlacement()
 	end
 
 	if Mouse then
-		Mouse.Icon = "http://mercs.dev/asset?id=66887745"
+		Mouse.Icon = "http://www.mercs.dev/asset?id=66887745"
 	end
 	game.JointsService:ClearJoinAfterMoveJoints()
 end
@@ -2862,7 +2862,7 @@ local function startEyeDropperOperation()
 	end
 
 	--Mouse.Icon ="rbxasset://textures//DropperCursor.png"
-	Mouse.Icon = "http://mercs.dev/asset?id=67163166"
+	Mouse.Icon = "http://www.mercs.dev/asset?id=67163166"
 	eyeDropperConnection = Mouse.Button1Up:connect(onEyeDropperMouseButton1Down)
 	eyeDropperMoveConnection = Mouse.Move:connect(onEyeDropperMouseMove)
 end
@@ -2873,7 +2873,7 @@ function onEyeDropperMouseButton1Down()
 	end
 	clearSelection()
 	if Mouse then
-		Mouse.Icon = "http://mercs.dev/asset?id=66887745"
+		Mouse.Icon = "http://www.mercs.dev/asset?id=66887745"
 	end
 
 	-- deny any attempt to clone something that wasn't stamped using the Stamper tool
@@ -2925,7 +2925,8 @@ function onEyeDropperMouseButton1Down()
 		if cellType.Value == 3 then
 			local inverseCornerWedgeMesh = Instance.new "SpecialMesh"
 			inverseCornerWedgeMesh.MeshType = "FileMesh"
-			inverseCornerWedgeMesh.MeshId = "http://mercs.dev/asset?id=66832495"
+			inverseCornerWedgeMesh.MeshId =
+				"http://www.mercs.dev/asset?id=66832495"
 			inverseCornerWedgeMesh.Scale = Vector3.new(2, 2, 2)
 			inverseCornerWedgeMesh.Parent = newTerrainPiece
 		end

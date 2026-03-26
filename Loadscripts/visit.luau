@@ -26,7 +26,7 @@ local message = Instance.new "Message"
 message.Parent = workspace
 message.archivable = false
 
-ScriptInformationProvider:SetAssetUrl(path "Asset/")
+ScriptInformationProvider:SetAssetUrl(path "asset/")
 ContentProvider:SetThreadPool(16)
 pcall(function()
 	InsertService:SetFreeModelUrl(

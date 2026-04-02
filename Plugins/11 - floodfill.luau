@@ -106,7 +106,12 @@ local colours = {
 	"Bright blue",
 }
 
-local function getClosestColorToTerrainMaterial(terrainValue)
+local function getClosestColourToTerrainMaterial(terrainValue: number)
+	local colour = colours[terrainValue]
+	if not colour then
+		return BrickColor.new "Bright green"
+	end
+
 	local val = BrickColor.new(colours[terrainValue])
 	if val then
 		return val
@@ -157,7 +162,7 @@ function MouseHighlighter.Create(mouseUse)
 		Size = Vector3.new(4, 4, 4),
 		BottomSurface = 0,
 		TopSurface = 0,
-		BrickColor = getClosestColorToTerrainMaterial(currentMaterial),
+		BrickColor = getClosestColourToTerrainMaterial(currentMaterial),
 		Parent = workspace,
 	}
 
@@ -305,7 +310,7 @@ end
 
 function MouseHighlighter:SetMaterial(newMaterial)
 	self.selectionPart.BrickColor =
-		getClosestColorToTerrainMaterial(newMaterial)
+		getClosestColourToTerrainMaterial(newMaterial)
 end
 
 function MouseHighlighter:GetPosition()

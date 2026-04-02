@@ -149,7 +149,7 @@ local function hint(label)
 	topHint.Add.Disabled = false
 end
 
-local function getClosestColorToTerrainMaterial(terrainValue)
+local function getClosestColourToTerrainMaterial(terrainValue)
 	if terrainValue == 1 then
 		return BrickColor.new "Bright green"
 	elseif terrainValue == 2 then
@@ -2909,7 +2909,7 @@ function onEyeDropperMouseButton1Down()
 
 		-- can add decals or textures here if feeling particularly adventurous...  for now, can make a table of look-up colors
 		newTerrainPiece.BrickColor =
-			getClosestColorToTerrainMaterial(cellMat.Value)
+			getClosestColourToTerrainMaterial(cellMat.Value)
 
 		local sideways = 0
 		local flipped = math.pi

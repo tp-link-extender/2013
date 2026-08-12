@@ -3,15 +3,15 @@
 -- Start Game
 print "[Mercury]: Loaded Host corescript"
 
-local InsertService = game:GetService "InsertService"
 local BadgeService = game:GetService "BadgeService"
-local ScriptContext = game:GetService "ScriptContext"
-local RunService = game:GetService "RunService"
-local ScriptInformationProvider =
-	game:GetService "ScriptInformationProvider" :: ScriptInformationProvider
 local ChangeHistoryService = game:GetService "ChangeHistoryService"
 local ContentProvider = game:GetService "ContentProvider"
+local InsertService = game:GetService "InsertService"
 local Players = game:GetService "Players"
+local RunService = game:GetService "RunService"
+local ScriptContext = game:GetService "ScriptContext"
+local ScriptInformationProvider =
+	game:GetService "ScriptInformationProvider" :: ScriptInformationProvider
 local Visit = game:GetService "Visit"
 
 -- establish this peer as the Server

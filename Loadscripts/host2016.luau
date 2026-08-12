@@ -34,7 +34,8 @@ end)
 --settings().Network.PhysicsSend = Enum.PhysicsSendMethod.ErrorComputation2
 settings().Network.PhysicsSend = Enum.PhysicsSendMethod.TopNErrors
 settings().Network.ExperimentalPhysicsEnabled = true
-settings().NetworkWaitingForCharacterLogRate = 100
+-- "NetworkWaitingForCharacterLogRate is not a valid member of GlobalSettings"
+-- settings().NetworkWaitingForCharacterLogRate = 100
 pcall(function()
 	settings().Diagnostics:LegacyScriptMode()
 end)

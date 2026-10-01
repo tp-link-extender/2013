@@ -27,7 +27,7 @@ end
 -- Headshot Camera
 local CameraAngle = char.Head.CFrame
 local CameraPosition = CameraAngle
-	+ CFrame.Angles(0, math.pi, 0).lookVector.Unit * 2.75
+	+ CFrame.Angles(math.rad(180), math.pi, 0).lookVector.Unit * 2.75
 
 workspace.CurrentCamera = New "Camera" {
 	Name = "ThumbnailCamera",

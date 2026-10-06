@@ -26,7 +26,18 @@ if not char then
 	error(`[{game.JobId}] Failed to set up body part render for {itemId}`)
 end
 
-local part = char:WaitForChild(limb :: string) :: BasePart
+-- The part can be missing if the appearance fails to apply the body part;
+-- WaitForChild without a timeout would yield forever
+local maxWait = 30
+local part = char:WaitForChild(limb :: string, maxWait)
+
+if not part then
+	print(`[{game.JobId}] No {limb} on the character after {maxWait}s. Children:`)
+	for _, child in char:GetChildren() :: { Instance } do
+		print(`[{game.JobId}] - {child.Name} ({child.ClassName})`)
+	end
+	error(`[{game.JobId}] Character had no {limb} after {maxWait}s`)
+end
 
 workspace.CurrentCamera = New "Camera" {
 	Name = "ThumbnailCamera",

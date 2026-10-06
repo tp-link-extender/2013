@@ -8,7 +8,7 @@ local Render = RenderModule(_BASE_URL, _PING_URL) -- avoid ambiguous syntax afte
 local New = require("../Modules/New").New
 
 -- _ASSET_ID: "<limb>:<itemId>", e.g. "Left Arm:330001234".
-local limb: string?, itemId: string? = (_ASSET_ID :: string):match "([[A-Za-z ]+):(%d+)"
+local limb: string?, itemId: string? = (_ASSET_ID :: string):match "([A-Za-z ]+):(%d+)"
 
 if not limb or not itemId then
 	error(

@@ -34,7 +34,7 @@ print(`[{game.JobId}] Got part {part.Name} ({part.ClassName}) at {part.Position}
 -- CamHeight: vertical offset of the camera itself (negative = lower)
 local Distance = 3.5
 local Yaw = math.rad(10)
-local Pitch = math.rad(20)
+local Pitch = math.rad(40)
 local AimHeight = -0.25
 local CamHeight = -2.25
 

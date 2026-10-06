@@ -27,15 +27,23 @@ local part = char.Torso :: BasePart
 print(`[{game.JobId}] Got part {part.Name} ({part.ClassName}) at {part.Position}`)
 
 -- Body Part Camera: zoomed in on the limb, viewed at an angle
--- Distance: how far the camera sits from the limb (smaller = more zoomed in)
+-- Distance: how far the camera sits from the limb (smaller = more cropped)
 -- Yaw: angle around the limb; sign decides which side we view it from
+-- Pitch: angle above the part looking down (positive = camera raised)
 -- AimHeight: vertical offset of the point the camera looks at
-local Distance = 4.25
-local Yaw = 0
-local AimHeight = 1
+-- CamHeight: vertical offset of the camera itself (negative = lower)
+local Distance = 3.5
+local Yaw = math.rad(10)
+local Pitch = math.rad(20)
+local AimHeight = -0.25
+local CamHeight = -2.25
 
 local cameraPosition =
-	(part.CFrame * CFrame.Angles(0, Yaw, 0) * CFrame.new(0, 0, -Distance)).p
+	(
+		part.CFrame
+		* CFrame.Angles(Pitch, Yaw, 0)
+		* CFrame.new(0, CamHeight, -Distance)
+	).p
 local aimPoint = part.Position + Vector3.new(0, AimHeight, 0)
 
 workspace.CurrentCamera = New "Camera" {

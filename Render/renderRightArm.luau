@@ -30,7 +30,7 @@ print(`[{game.JobId}] Got part {part.Name} ({part.ClassName}) at {part.Position}
 -- Distance: how far the camera sits from the limb (smaller = more zoomed in)
 -- Yaw: angle around the limb; sign decides which side we view it from
 -- AimHeight: vertical offset of the point the camera looks at
-local Distance = 2.9
+local Distance = 3.1
 local Yaw = math.rad(-20)
 local AimHeight = 0
 

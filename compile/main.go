@@ -18,19 +18,19 @@ func trimExt(n string) string {
 }
 
 const (
-	outputPath        = "../out"
-	serverOutputPath  = outputPath + "/server"
+	outputPath = "../out"
+	serverOutputPath = outputPath + "/server"
 	pluginsOutputPath = outputPath + "/plugins"
-	coresPath         = "../Corescripts"
-	coresTemp         = outputPath + "/corescripts"
-	libsPath          = "../Libraries"
-	loadsPath         = "../Loadscripts"
-	loadsOut          = serverOutputPath + "/loadscripts"
-	pluginsPath       = "../Plugins"
-	renderPath        = "../Render"
-	assetsPath        = "../Assets"
-	assetsOut         = serverOutputPath + "/assets"
-	keyPath           = "./PrivateKey.pem"
+	coresPath = "../Corescripts"
+	coresTemp = outputPath + "/corescripts"
+	libsPath = "../Libraries"
+	loadsPath = "../Loadscripts"
+	loadsOut = serverOutputPath + "/loadscripts"
+	pluginsPath = "../Plugins"
+	renderPath = "../Render"
+	assetsPath = "../Assets"
+	assetsOut = serverOutputPath + "/assets"
+	keyPath = "./PrivateKey.pem"
 )
 
 type Script struct {
@@ -40,18 +40,18 @@ type Script struct {
 var libraries = []Script{
 	{
 		entrypoint: libsPath + "/Fusion/init.luau",
-		output:     coresTemp + "/10000001.lua",
-		config:     "dense",
+		output: coresTemp + "/10000001.lua",
+		config: "dense",
 	},
 	{
 		entrypoint: libsPath + "/Red/init.luau",
-		output:     coresTemp + "/10000002.lua",
-		config:     "dense",
+		output: coresTemp + "/10000002.lua",
+		config: "dense",
 	},
 	{
 		entrypoint: libsPath + "/Load.luau",
-		output:     coresTemp + "/10000003.lua",
-		config:     "dense",
+		output: coresTemp + "/10000003.lua",
+		config: "dense",
 	},
 }
 
@@ -79,8 +79,8 @@ func readScripts(in, out string) ([]Script, error) {
 
 		scripts = append(scripts, Script{
 			entrypoint: in + "/" + entry.Name(),
-			output:     out + "/" + nameNoExt + ".lua",
-			config:     "dense",
+			output: out + "/" + nameNoExt + ".lua",
+			config: "dense",
 		})
 	}
 

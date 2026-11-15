@@ -13,29 +13,25 @@ import (
 	"path/filepath"
 )
 
-func trimExt(n string) string {
-	return n[:len(n)-len(filepath.Ext(n))]
-}
-
-const (
-	outputPath = "../out"
-	serverOutputPath = outputPath + "/server"
-	pluginsOutputPath = outputPath + "/plugins"
-	coresPath = "../Corescripts"
-	coresTemp = outputPath + "/corescripts"
-	libsPath = "../Libraries"
-	loadsPath = "../Loadscripts"
-	loadsOut = serverOutputPath + "/loadscripts"
-	pluginsPath = "../Plugins"
-	renderPath = "../Render"
-	assetsPath = "../Assets"
-	assetsOut = serverOutputPath + "/assets"
-	keyPath = "./PrivateKey.pem"
-)
-
 type Script struct {
 	entrypoint, output, config string // "lines" | "dense"
 }
+
+const (
+	assetsPath = "../Assets"
+	coresPath = "../Corescripts"
+	keyPath = "./PrivateKey.pem"
+	libsPath = "../Libraries"
+	loadsPath = "../Loadscripts"
+	outputPath = "../out"
+	coresTemp = outputPath + "/corescripts"
+	pluginsOutputPath = outputPath + "/plugins"
+	pluginsPath = "../Plugins"
+	renderPath = "../Render"
+	serverOutputPath = outputPath + "/server"
+	assetsOut = serverOutputPath + "/assets"
+	loadsOut = serverOutputPath + "/loadscripts"
+)
 
 var libraries = []Script{
 	{
@@ -57,34 +53,11 @@ var libraries = []Script{
 
 func processScript(s Script) error {
 	fmt.Println("Processing", s.entrypoint, "to", s.output, "with config", s.config)
+
 	configPath := fmt.Sprintf("../%s.json5", s.config)
 	cmd := exec.Command("darklua", "process", "-c", configPath, s.entrypoint, s.output)
+
 	return cmd.Run()
-}
-
-func readScripts(in, out string) ([]Script, error) {
-	readDir, err := os.ReadDir(in)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read cores directory: %w", err)
-	}
-
-	var scripts []Script
-	for _, entry := range readDir {
-		if entry.IsDir() {
-			continue
-		}
-
-		n := entry.Name()
-		nameNoExt := trimExt(n)
-
-		scripts = append(scripts, Script{
-			entrypoint: in + "/" + entry.Name(),
-			output: out + "/" + nameNoExt + ".lua",
-			config: "dense",
-		})
-	}
-
-	return scripts, nil
 }
 
 func signScript(in, out string, sk *rsa.PrivateKey, id string, total *int) error {
@@ -97,7 +70,6 @@ func signScript(in, out string, sk *rsa.PrivateKey, id string, total *int) error
 
 	// signature is a comment, so prepend a newline to prevent the first line from being commented out
 	data = append([]byte("\n--rbxassetid%"+id+"%\n"), data...)
-
 	hashed := sha1.Sum(data)
 	// actually works, can you believe it‽
 	sig, err := rsa.SignPKCS1v15(nil, sk, crypto.SHA1, hashed[:])
@@ -107,19 +79,47 @@ func signScript(in, out string, sk *rsa.PrivateKey, id string, total *int) error
 	// encode sig as base64
 	sigb64 := base64.StdEncoding.EncodeToString(sig)
 	sigcomment := fmt.Sprintf("--rbxsig%%%s%%", sigb64)
-
 	newdata := append([]byte(sigcomment), data...)
-	(*total) += len(newdata)
+	*total += len(newdata)
 
 	if err = os.WriteFile(out, newdata, 0o644); err != nil {
 		return fmt.Errorf("error writing signed script: %w", err)
 	}
+
 	return nil
+}
+
+func trimExt(n string) string {
+	return n[:len(n)-len(filepath.Ext(n))]
+}
+
+func readScripts(in, out string) ([]Script, error) {
+	readDir, err := os.ReadDir(in)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read cores directory: %w", err)
+	}
+
+	var scripts []Script
+
+	for _, entry := range readDir {
+		if entry.IsDir() {
+			continue
+		}
+
+		n := entry.Name()
+		nameNoExt := trimExt(n)
+		scripts = append(scripts, Script{
+			entrypoint: in + "/" + entry.Name(),
+			output: out + "/" + nameNoExt + ".lua",
+			config: "dense",
+		})
+	}
+
+	return scripts, nil
 }
 
 func main() {
 	fmt.Println("Mercury Corescript Compiler (MCC) Version 2")
-
 	if err := os.RemoveAll(outputPath); err != nil {
 		fmt.Println("Error removing output directory:", err)
 		return
@@ -130,16 +130,19 @@ func main() {
 		fmt.Println("Error reading corescripts:", err)
 		return
 	}
+
 	loads, err := readScripts(loadsPath, loadsOut)
 	if err != nil {
 		fmt.Println("Error reading loadscripts:", err)
 		return
 	}
+
 	plugins, err := readScripts(pluginsPath, pluginsOutputPath)
 	if err != nil {
 		fmt.Println("Error reading plugins:", err)
 		return
 	}
+
 	render, err := readScripts(renderPath, serverOutputPath+"/render")
 	if err != nil {
 		fmt.Println("Error reading render scripts:", err)
@@ -147,6 +150,7 @@ func main() {
 	}
 
 	var scripts []Script
+
 	scripts = append(scripts, libraries...)
 	scripts = append(scripts, cores...)
 	scripts = append(scripts, loads...)
@@ -160,7 +164,6 @@ func main() {
 			return
 		}
 	}
-
 	fmt.Println("Compilation complete")
 
 	key, err := os.ReadFile(keyPath)
@@ -187,28 +190,32 @@ func main() {
 		fmt.Println("Error reading corescripts directory for signing:", err)
 		return
 	}
+
 	err = os.MkdirAll(assetsOut, 0o755)
+
 	if err != nil {
 		fmt.Println("Error creating assets output directory:", err)
 		return
 	}
 
 	var totalCores int
+
 	for _, entry := range coresOutDir {
 		if entry.IsDir() {
 			continue
 		}
+
 		name := entry.Name()
 		id := trimExt(name)
 		in := coresTemp + "/" + name
 		out := assetsOut + "/" + id
+
 		if err = signScript(in, out, sk, id, &totalCores); err != nil {
 			fmt.Println("Error signing corescript:", err)
 			return
 		}
 	}
 	fmt.Println("Total corescripts size", totalCores, "bytes")
-
 	if err = os.RemoveAll(coresTemp); err != nil {
 		fmt.Println("Error removing temporary corescripts directory:", err)
 		return
@@ -225,21 +232,23 @@ func main() {
 		if entry.IsDir() {
 			continue
 		}
+
 		name := entry.Name()
 		in := assetsPath + "/" + name
 		out := serverOutputPath + "/assets/" + trimExt(name)
 
 		fmt.Println("Copying asset", in, "to", out)
+
 		data, err := os.ReadFile(in)
 		if err != nil {
 			fmt.Println("Error reading asset:", err)
 			return
 		}
+
 		if err = os.WriteFile(out, data, 0o644); err != nil {
 			fmt.Println("Error writing asset:", err)
 			return
 		}
 	}
-
 	fmt.Println("Done!")
 }

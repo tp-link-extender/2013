@@ -76,6 +76,7 @@ func signScript(in, out string, sk *rsa.PrivateKey, id string, total *int) error
 	if err != nil {
 		return fmt.Errorf("error signing script: %w", err)
 	}
+
 	// encode sig as base64
 	sigb64 := base64.StdEncoding.EncodeToString(sig)
 	sigcomment := fmt.Sprintf("--rbxsig%%%s%%", sigb64)
@@ -120,6 +121,7 @@ func readScripts(in, out string) ([]Script, error) {
 
 func main() {
 	fmt.Println("Mercury Corescript Compiler (MCC) Version 2")
+
 	if err := os.RemoveAll(outputPath); err != nil {
 		fmt.Println("Error removing output directory:", err)
 		return
@@ -164,6 +166,7 @@ func main() {
 			return
 		}
 	}
+
 	fmt.Println("Compilation complete")
 
 	key, err := os.ReadFile(keyPath)
@@ -192,7 +195,6 @@ func main() {
 	}
 
 	err = os.MkdirAll(assetsOut, 0o755)
-
 	if err != nil {
 		fmt.Println("Error creating assets output directory:", err)
 		return
@@ -215,7 +217,9 @@ func main() {
 			return
 		}
 	}
+
 	fmt.Println("Total corescripts size", totalCores, "bytes")
+
 	if err = os.RemoveAll(coresTemp); err != nil {
 		fmt.Println("Error removing temporary corescripts directory:", err)
 		return
@@ -250,5 +254,6 @@ func main() {
 			return
 		}
 	}
+
 	fmt.Println("Done!")
 }

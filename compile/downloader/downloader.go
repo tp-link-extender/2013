@@ -20,6 +20,7 @@ var key string
 
 func main() {
 	fmt.Println("downloader lel")
+
 	if len(os.Args) < 2 {
 		fmt.Println("usage: <assetid>")
 		return
@@ -29,6 +30,7 @@ func main() {
 	req, err := http.NewRequest("GET", "https://apis.roblox.com/asset-delivery-api/v1/assetId/"+id, nil)
 
 	req.Header.Add("x-api-key", key)
+
 	if err != nil {
 		fmt.Println("error creating request:", err)
 		return
@@ -89,5 +91,6 @@ func main() {
 		fmt.Println("error saving asset to file:", err)
 		return
 	}
+
 	fmt.Println("Downloaded asset to", out+"/"+id)
 }
